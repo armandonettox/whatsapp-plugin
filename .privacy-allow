@@ -1,0 +1,15 @@
+# Excecoes do verificador de privacidade (scripts/check-privacy.py).
+# Um valor exato por linha. Use so para exemplos ficticios aprovados; nunca para dado real.
+# Linhas que comecam com # sao comentarios.
+
+# Numeros inventados do banco sintetico dos testes (tests/fixtures.py). Nenhum e real.
+5511900000000
+5511900000000@s.whatsapp.net
+5511999990001
+5511999990001@s.whatsapp.net
+5511999990002
+5511999990002@s.whatsapp.net
+5511999990003
+5511999990003@s.whatsapp.net
+5511999990004
+5511999990004@s.whatsapp.net

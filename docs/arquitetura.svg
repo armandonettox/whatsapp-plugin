@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 540" width="1040" height="540" role="img" aria-labelledby="t d">
+  <title id="t">Arquitetura do WhatsApp para agentes de IA</title>
+  <desc id="d">O agente chama o servidor MCP. No Claude Code, um guarda confere cada envio; em qualquer agente, o modo de envio do servidor decide se as ferramentas de envio existem. O servidor le os bancos locais direto e envia pela bridge, que fala com o WhatsApp e grava as mensagens nos bancos. As skills leem os bancos em modo somente leitura e, no Claude Code, um hook liga a bridge no inicio da sessao.</desc>
+  <style>
+    :root{--bg:#F6F8F7;--text:#1B2A33;--dim:#5B6B73;--surf:#FFFFFF;--flow:#2BB673;--comp:#2F6F8F;--guard:#F2A93B;--block:#E5604D}
+    @media (prefers-color-scheme: dark){:root{--bg:#0F1B22;--text:#E6EEF0;--dim:#9DB0B8;--surf:#16262F;--flow:#3DD68C;--comp:#5FA8C9;--guard:#F2A93B;--block:#F07C6B}}
+    text{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--text)}
+    .h{font-size:22px;font-weight:700}.s{font-size:13px;fill:var(--dim)}
+    .t1{font-size:16px;font-weight:600}.t2{font-size:12.5px;fill:var(--dim)}.t3{font-size:11.5px;fill:var(--dim)}
+    .box{fill:var(--surf);stroke:var(--comp);stroke-width:2}
+    .boxg{fill:var(--surf);stroke:var(--guard);stroke-width:2.5}
+    .ln{stroke:var(--flow);stroke-width:2.2;fill:none;marker-end:url(#af)}
+    .lnd{stroke:var(--dim);stroke-width:1.7;fill:none;stroke-dasharray:6 4;marker-end:url(#ad)}
+  </style>
+  <defs>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--flow)"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--dim)"/></marker>
+  </defs>
+  <rect width="1040" height="540" style="fill:var(--bg)"/>
+  <text x="30" y="40" class="h">Como funciona</text>
+  <text x="30" y="62" class="s">Mensagens e bancos ficam no seu computador; o que o agente lê é enviado ao modelo que você usa.</text>
+
+  <!-- linha de cima: chamada e envio -->
+  <line x1="200" y1="135" x2="345" y2="135" class="ln"/>
+  <text x="272" y="106" class="t3" text-anchor="middle">MCP (stdio)</text>
+  <rect x="215" y="112" width="115" height="46" rx="10" class="boxg"/>
+  <text x="272" y="132" class="t1" text-anchor="middle" style="font-size:13.5px">Guarda</text>
+  <text x="272" y="149" class="t3" text-anchor="middle">(Claude Code)</text>
+
+  <rect x="30" y="90" width="170" height="90" rx="14" class="box"/>
+  <text x="115" y="130" class="t1" text-anchor="middle">Seu agente</text>
+  <text x="115" y="152" class="t2" text-anchor="middle">qualquer um com MCP</text>
+
+  <rect x="345" y="90" width="190" height="90" rx="14" class="box"/>
+  <text x="440" y="124" class="t1" text-anchor="middle">Servidor MCP</text>
+  <text x="440" y="145" class="t2" text-anchor="middle">Python · server/</text>
+  <text x="440" y="163" class="t3" text-anchor="middle">13 ferramentas · modo de envio</text>
+
+  <line x1="535" y1="135" x2="665" y2="135" class="ln"/>
+  <text x="600" y="120" class="t3" text-anchor="middle">envio e download</text>
+  <text x="600" y="158" class="t3" text-anchor="middle">HTTP · 127.0.0.1:8081</text>
+
+  <rect x="665" y="90" width="150" height="90" rx="14" class="box"/>
+  <text x="740" y="124" class="t1" text-anchor="middle">Bridge</text>
+  <text x="740" y="145" class="t2" text-anchor="middle">Go · whatsmeow</text>
+  <text x="740" y="163" class="t3" text-anchor="middle">bridge/</text>
+
+  <line x1="815" y1="135" x2="915" y2="135" class="ln"/>
+  <text x="865" y="120" class="t3" text-anchor="middle">WhatsApp Web</text>
+  <text x="865" y="158" class="t3" text-anchor="middle">multidispositivo</text>
+
+  <rect x="915" y="90" width="95" height="90" rx="14" class="box"/>
+  <text x="962" y="130" class="t1" text-anchor="middle">WhatsApp</text>
+  <text x="962" y="152" class="t2" text-anchor="middle">seu número</text>
+
+  <!-- bancos -->
+  <rect x="470" y="270" width="290" height="86" rx="14" class="box"/>
+  <text x="615" y="305" class="t1" text-anchor="middle">data/store</text>
+  <text x="615" y="327" class="t2" text-anchor="middle">messages.db · whatsapp.db</text>
+  <text x="615" y="344" class="t3" text-anchor="middle">SQLite, só no seu computador</text>
+
+  <line x1="500" y1="180" x2="500" y2="270" class="ln"/>
+  <text x="490" y="222" class="t3" text-anchor="end">lê direto</text>
+  <text x="490" y="238" class="t3" text-anchor="end">(somente leitura)</text>
+  <line x1="740" y1="180" x2="740" y2="270" class="ln"/>
+  <text x="752" y="228" class="t3">grava as mensagens</text>
+  <text x="752" y="244" class="t3">que chegam e saem</text>
+
+  <!-- skill -->
+  <rect x="30" y="395" width="300" height="90" rx="14" class="box"/>
+  <text x="180" y="430" class="t1" text-anchor="middle">Skills</text>
+  <text x="180" y="452" class="t2" text-anchor="middle">triagem, notas, escrita e partes</text>
+  <text x="180" y="469" class="t3" text-anchor="middle">ajudam a responder no seu tom</text>
+  <path d="M115 395 V180" class="lnd"/>
+  <text x="125" y="300" class="t3">carregada pelo agente</text>
+  <path d="M330 440 H560 V356" class="lnd"/>
+  <text x="345" y="432" class="t3">lê o histórico (somente leitura)</text>
+
+  <!-- hook de inicio -->
+  <rect x="665" y="395" width="215" height="90" rx="14" class="box"/>
+  <text x="772" y="430" class="t1" text-anchor="middle">Hook de início</text>
+  <text x="772" y="452" class="t2" text-anchor="middle">liga a bridge sozinho</text>
+  <text x="772" y="469" class="t3" text-anchor="middle">só no Claude Code</text>
+  <path d="M800 395 V180" class="lnd"/>
+  <text x="810" y="300" class="t3">inicia</text>
+
+  <!-- legenda -->
+  <g transform="translate(30,515)">
+    <line x1="0" y1="0" x2="26" y2="0" class="ln" style="marker-end:none"/><text x="34" y="4" class="t3">fluxo de mensagens</text>
+    <line x1="190" y1="0" x2="216" y2="0" class="lnd" style="marker-end:none"/><text x="224" y="4" class="t3">leitura ou inicialização</text>
+    <rect x="400" y="-6" width="14" height="12" rx="3" class="boxg"/><text x="422" y="4" class="t3">guarda de segurança</text>
+    <rect x="570" y="-6" width="14" height="12" rx="3" class="box"/><text x="592" y="4" class="t3">componentes</text>
+  </g>
+</svg>

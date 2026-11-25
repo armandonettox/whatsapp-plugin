@@ -1,0 +1,17 @@
+{
+  "name": "whatsapp-plugin",
+  "description": "WhatsApp para agentes de IA: servidor MCP, bridge local, skills e guarda de envio. Plugin para o Claude Code e servidor MCP para qualquer agente.",
+  "owner": {
+    "name": "armandonettox"
+  },
+  "plugins": [
+    {
+      "name": "whatsapp",
+      "description": "Le e busca conversas do WhatsApp, transcreve audios, sugere respostas no seu tom e so envia depois da sua confirmacao explicita.",
+      "source": "./",
+      "version": "0.1.0",
+      "license": "MIT",
+      "keywords": ["whatsapp", "mcp", "skill", "guard"]
+    }
+  ]
+}

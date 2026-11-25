@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 510" width="1040" height="510" role="img" aria-labelledby="t d" lang="pt-BR">
+  <title id="t">Isolamento com containers</title>
+  <desc id="d">O container do agente e o servidor MCP compartilham a rede whatsapp-agente. O servidor MCP e a bridge compartilham a rede whatsapp-back. O agente não tem rota até a bridge. A API da bridge exige uma senha que só a bridge e o servidor MCP conhecem. O volume com a sessão do WhatsApp e os bancos só é montado pela bridge e pelo servidor MCP.</desc>
+  <style>
+    :root{--bg:#F6F8F7;--text:#1B2A33;--dim:#5B6B73;--surf:#FFFFFF;--flow:#2BB673;--comp:#2F6F8F;--guard:#F2A93B;--block:#E5604D;--flowt:#1B7F52;--blockt:#B8402E}
+    @media (prefers-color-scheme: dark){:root{--bg:#0F1B22;--text:#E6EEF0;--dim:#9DB0B8;--surf:#16262F;--flow:#3DD68C;--comp:#5FA8C9;--guard:#F2A93B;--block:#F07C6B;--flowt:#3DD68C;--blockt:#F07C6B}}
+    text{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--text)}
+    .h{font-size:22px;font-weight:700}.s{font-size:13px;fill:var(--dim)}
+    .t1{font-size:15.5px;font-weight:600}.t2{font-size:12.5px;fill:var(--dim)}.t3{font-size:11.5px;fill:var(--dim)}
+    .box{fill:var(--surf);stroke:var(--comp);stroke-width:2}
+    .boxg{fill:var(--surf);stroke:var(--guard);stroke-width:2.5}
+    .boxb{fill:var(--surf);stroke:var(--block);stroke-width:2.5}
+    .boxf{fill:var(--surf);stroke:var(--flow);stroke-width:2.5}
+    .ln{stroke:var(--flow);stroke-width:2.2;fill:none;marker-end:url(#af)}
+    .lnb{stroke:var(--block);stroke-width:2.2;fill:none;marker-end:url(#ab)}
+    .lnn{stroke:var(--dim);stroke-width:2;fill:none;marker-end:url(#ad)}
+    .note{fill:var(--surf);stroke:var(--dim);stroke-width:1.2;stroke-dasharray:5 4}
+    .ok{fill:var(--flow)}.no{fill:var(--block)}
+.band{fill:var(--comp);fill-opacity:.07;stroke:var(--comp);stroke-width:1.5;stroke-dasharray:7 5}.lna{stroke:var(--guard);stroke-width:2.2;fill:none;marker-end:url(#aa)}.lnx{stroke:var(--blockt);stroke-width:2.2;fill:none;stroke-dasharray:7 5;marker-end:url(#ab)}.lnd{stroke:var(--dim);stroke-width:1.7;fill:none;stroke-dasharray:6 4}.tg{font-size:11.5px;font-weight:600;fill:var(--guard)}.tb{font-size:12.5px;font-weight:600;fill:var(--blockt)}.tf{font-size:12.5px;font-weight:600;fill:var(--flowt)}</style>
+  <defs>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--flow)"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--block)"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--dim)"/></marker>
+<marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--guard)"/></marker></defs>
+  <rect width="1040" height="510" style="fill:var(--bg)"/>
+  <text x="30" y="40" class="h" text-anchor="start">Isolamento com containers</text>
+  <text x="30" y="62" class="s" text-anchor="start">O agente só alcança o servidor MCP. Ele nunca vê a bridge, a senha nem a sessão.</text>
+  <rect x="20" y="120" width="640" height="190" rx="18" class="band"/>
+  <rect x="380" y="120" width="640" height="190" rx="18" class="band"/>
+  <text x="36" y="142" class="t3" text-anchor="start">rede: whatsapp-agente</text>
+  <text x="1004" y="142" class="t3" text-anchor="end">rede: whatsapp-back</text>
+  <rect x="50" y="170" width="220" height="90" rx="14" class="box"/>
+  <text x="160.0" y="210.0" class="t1" text-anchor="middle">Container do agente</text>
+  <text x="160.0" y="230.0" class="t2" text-anchor="middle">ex.: OpenBot, com terminal</text>
+  <rect x="430" y="170" width="220" height="90" rx="14" class="box"/>
+  <text x="540.0" y="210.0" class="t1" text-anchor="middle">Servidor MCP</text>
+  <text x="540.0" y="230.0" class="t2" text-anchor="middle">modo: read-only ou two-step</text>
+  <rect x="790" y="170" width="200" height="90" rx="14" class="box"/>
+  <text x="890.0" y="210.0" class="t1" text-anchor="middle">Bridge</text>
+  <text x="890.0" y="230.0" class="t2" text-anchor="middle">API protegida por senha</text>
+  <line x1="270" y1="215" x2="428" y2="215" class="ln"/>
+  <line x1="650" y1="215" x2="788" y2="215" class="ln"/>
+  <text x="719" y="205" class="tf" text-anchor="middle">senha</text>
+  <path d="M160,168 C160,70 890,70 890,168" class="lnx"/>
+  <text x="525" y="86" class="tb" text-anchor="middle">sem rota: o agente não alcança a bridge</text>
+  <rect x="430" y="350" width="220" height="70" rx="14" class="boxg"/>
+  <text x="540.0" y="380.0" class="t1" text-anchor="middle">volume whatsapp-data</text>
+  <text x="540.0" y="400.0" class="t2" text-anchor="middle">sessão e bancos</text>
+  <line x1="540" y1="260" x2="540" y2="348" class="lnd"/>
+  <path d="M890,260 V385 H652" class="lnd"/>
+  <text x="905" y="285" class="t3" text-anchor="start">saída para a internet</text>
+  <text x="905" y="303" class="t3" text-anchor="start">↑ WhatsApp</text>
+  <text x="30" y="458" class="t3" text-anchor="start">A senha existe só nos containers da bridge e do servidor MCP.</text>
+  <g transform="translate(30,490)">
+    <line x1="0" y1="0" x2="26" y2="0" class="ln" style="marker-end:none"/>  <text x="34" y="4" class="t3" text-anchor="start">caminho permitido</text>
+    <line x1="190" y1="0" x2="216" y2="0" class="lnx" style="marker-end:none"/>  <text x="224" y="4" class="t3" text-anchor="start">caminho bloqueado</text>
+    <line x1="400" y1="0" x2="426" y2="0" class="lnd"/>  <text x="434" y="4" class="t3" text-anchor="start">acesso aos dados</text>
+  </g>
+</svg>

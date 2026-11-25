@@ -1,0 +1,4 @@
+[Network]
+# Rede so da bridge e do servidor MCP. O agente nao entra aqui, entao nao alcanca a API da bridge.
+# Precisa de saida para a internet: a bridge fala com o WhatsApp.
+NetworkName=whatsapp-back

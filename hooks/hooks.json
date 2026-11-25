@@ -1,0 +1,28 @@
+{
+  "description": "Liga a bridge do WhatsApp no inicio da sessao e bloqueia qualquer envio de mensagem, arquivo ou audio que nao tenha sido confirmado de forma explicita pelo usuario.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/whatsapp-bridge-ensure.sh\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*whatsapp.*__send_(message|file|audio_message)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

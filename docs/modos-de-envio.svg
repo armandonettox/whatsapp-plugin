@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 524" width="1040" height="524" role="img" aria-labelledby="t d" lang="pt-BR">
+  <title id="t">Modos de envio</title>
+  <desc id="d">O agente fala com o servidor MCP. O modo de envio decide o que acontece depois. Em read-only, o padrão, as ferramentas de envio não existem. Em two-step, as ferramentas de envio só guardam um rascunho e a pessoa confirma no próprio terminal. Em hook, as ferramentas enviam direto e só o guarda do Claude Code confirma cada envio.</desc>
+  <style>
+    :root{--bg:#F6F8F7;--text:#1B2A33;--dim:#5B6B73;--surf:#FFFFFF;--flow:#2BB673;--comp:#2F6F8F;--guard:#F2A93B;--block:#E5604D;--flowt:#1B7F52;--blockt:#B8402E}
+    @media (prefers-color-scheme: dark){:root{--bg:#0F1B22;--text:#E6EEF0;--dim:#9DB0B8;--surf:#16262F;--flow:#3DD68C;--comp:#5FA8C9;--guard:#F2A93B;--block:#F07C6B;--flowt:#3DD68C;--blockt:#F07C6B}}
+    text{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--text)}
+    .h{font-size:22px;font-weight:700}.s{font-size:13px;fill:var(--dim)}
+    .t1{font-size:15.5px;font-weight:600}.t2{font-size:12.5px;fill:var(--dim)}.t3{font-size:11.5px;fill:var(--dim)}
+    .box{fill:var(--surf);stroke:var(--comp);stroke-width:2}
+    .boxg{fill:var(--surf);stroke:var(--guard);stroke-width:2.5}
+    .boxb{fill:var(--surf);stroke:var(--block);stroke-width:2.5}
+    .boxf{fill:var(--surf);stroke:var(--flow);stroke-width:2.5}
+    .ln{stroke:var(--flow);stroke-width:2.2;fill:none;marker-end:url(#af)}
+    .lnb{stroke:var(--block);stroke-width:2.2;fill:none;marker-end:url(#ab)}
+    .lnn{stroke:var(--dim);stroke-width:2;fill:none;marker-end:url(#ad)}
+    .note{fill:var(--surf);stroke:var(--dim);stroke-width:1.2;stroke-dasharray:5 4}
+    .ok{fill:var(--flow)}.no{fill:var(--block)}
+.band{fill:var(--comp);fill-opacity:.07;stroke:var(--comp);stroke-width:1.5;stroke-dasharray:7 5}.lna{stroke:var(--guard);stroke-width:2.2;fill:none;marker-end:url(#aa)}.lnx{stroke:var(--blockt);stroke-width:2.2;fill:none;stroke-dasharray:7 5;marker-end:url(#ab)}.lnd{stroke:var(--dim);stroke-width:1.7;fill:none;stroke-dasharray:6 4}.tg{font-size:11.5px;font-weight:600;fill:var(--guard)}.tb{font-size:12.5px;font-weight:600;fill:var(--blockt)}.tf{font-size:12.5px;font-weight:600;fill:var(--flowt)}</style>
+  <defs>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--flow)"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--block)"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--dim)"/></marker>
+<marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--guard)"/></marker></defs>
+  <rect width="1040" height="524" style="fill:var(--bg)"/>
+  <text x="30" y="40" class="h" text-anchor="start">Modos de envio</text>
+  <text x="30" y="62" class="s" text-anchor="start">WHATSAPP_SEND_MODE decide o que o agente pode fazer. Sem ela, vale o padrão seguro.</text>
+  <rect x="420" y="90" width="200" height="60" rx="14" class="box"/>
+  <text x="520.0" y="115.0" class="t1" text-anchor="middle">Agente</text>
+  <text x="520.0" y="135.0" class="t2" text-anchor="middle">qualquer um com MCP</text>
+  <line x1="520" y1="150" x2="520" y2="188" class="lnn"/>
+  <rect x="380" y="190" width="280" height="70" rx="14" class="box"/>
+  <text x="520.0" y="220.0" class="t1" text-anchor="middle">Servidor MCP</text>
+  <text x="520.0" y="240.0" class="t2" text-anchor="middle">WHATSAPP_SEND_MODE</text>
+  <path d="M520,260 V290 H190 V318" class="ln"/>
+  <rect x="30" y="320" width="320" height="160" rx="14" class="boxf"/>
+  <text x="48" y="350" class="t1" text-anchor="start">read-only</text>
+  <text x="48" y="370" class="tf" text-anchor="start">padrão</text>
+  <text x="48" y="405" class="t3" text-anchor="start">O agente vê</text>
+  <text x="142" y="405" class="t2" text-anchor="start" style="fill:var(--text)">nenhuma ferramenta de envio</text>
+  <text x="48" y="431" class="t3" text-anchor="start">Quem envia</text>
+  <text x="142" y="431" class="t2" text-anchor="start" style="fill:var(--text)">ninguém</text>
+  <text x="48" y="457" class="t3" text-anchor="start">Use para</text>
+  <text x="142" y="457" class="t2" text-anchor="start" style="fill:var(--text)">qualquer agente, sem configurar</text>
+  <path d="M520,260 V318" class="lnn"/>
+  <rect x="360" y="320" width="320" height="160" rx="14" class="box"/>
+  <text x="378" y="350" class="t1" text-anchor="start">two-step</text>
+  <text x="378" y="370" class="t3" text-anchor="start">envia com o seu OK</text>
+  <text x="378" y="405" class="t3" text-anchor="start">O agente vê</text>
+  <text x="472" y="405" class="t2" text-anchor="start" style="fill:var(--text)">envio só guarda um rascunho</text>
+  <text x="378" y="431" class="t3" text-anchor="start">Quem envia</text>
+  <text x="472" y="431" class="t2" text-anchor="start" style="fill:var(--text)">você, no seu terminal</text>
+  <text x="378" y="457" class="t3" text-anchor="start">Use para</text>
+  <text x="472" y="457" class="t2" text-anchor="start" style="fill:var(--text)">agentes sem o guarda</text>
+  <path d="M520,260 V290 H850 V318" class="lna"/>
+  <rect x="690" y="320" width="320" height="160" rx="14" class="boxg"/>
+  <text x="708" y="350" class="t1" text-anchor="start">hook</text>
+  <text x="708" y="370" class="tg" text-anchor="start">só no Claude Code</text>
+  <text x="708" y="405" class="t3" text-anchor="start">O agente vê</text>
+  <text x="802" y="405" class="t2" text-anchor="start" style="fill:var(--text)">envio vai direto</text>
+  <text x="708" y="431" class="t3" text-anchor="start">Quem envia</text>
+  <text x="802" y="431" class="t2" text-anchor="start" style="fill:var(--text)">o agente, depois do guarda</text>
+  <text x="708" y="457" class="t3" text-anchor="start">Use para</text>
+  <text x="802" y="457" class="t2" text-anchor="start" style="fill:var(--text)">Claude Code</text>
+  <text x="520" y="508" class="t3" text-anchor="middle">Valor desconhecido, com erro de digitação ou vazio cai em read-only.</text>
+</svg>

@@ -1,0 +1,22 @@
+[Unit]
+Description=Bridge do WhatsApp (API protegida por senha, sem porta publicada)
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=localhost/whatsapp-bridge:0.1.0
+ContainerName=whatsapp-bridge
+# So a rede do servidor MCP. O agente nao participa dela. O nome do container vira o nome na rede.
+Network=whatsapp-back.network
+Volume=whatsapp-data.volume:/app/data:U
+# A senha vem de um segredo do Podman (podman secret create whatsapp-bridge-token -), nunca de arquivo no git
+Secret=whatsapp-bridge-token,type=env,target=WHATSAPP_BRIDGE_TOKEN
+DropCapability=ALL
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

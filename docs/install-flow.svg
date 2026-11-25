@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 424" width="1040" height="424" role="img" aria-labelledby="t d" lang="en">
+  <title id="t">Install with an agent</title>
+  <desc id="d">Nine steps. You paste a short prompt. The agent reads the install skill, runs a read-only diagnostic after every step, picks the path, installs what is missing asking first, then stops so you can scan the QR code. It registers the MCP server, proves it works by listing one chat without sending anything, and stops again so you choose the send mode. The install ends with sending disabled.</desc>
+  <style>
+    :root{--bg:#F6F8F7;--text:#1B2A33;--dim:#5B6B73;--surf:#FFFFFF;--flow:#2BB673;--comp:#2F6F8F;--guard:#F2A93B;--block:#E5604D;--flowt:#1B7F52;--blockt:#B8402E}
+    @media (prefers-color-scheme: dark){:root{--bg:#0F1B22;--text:#E6EEF0;--dim:#9DB0B8;--surf:#16262F;--flow:#3DD68C;--comp:#5FA8C9;--guard:#F2A93B;--block:#F07C6B;--flowt:#3DD68C;--blockt:#F07C6B}}
+    text{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--text)}
+    .h{font-size:22px;font-weight:700}.s{font-size:13px;fill:var(--dim)}
+    .t1{font-size:15.5px;font-weight:600}.t2{font-size:12.5px;fill:var(--dim)}.t3{font-size:11.5px;fill:var(--dim)}
+    .box{fill:var(--surf);stroke:var(--comp);stroke-width:2}
+    .boxg{fill:var(--surf);stroke:var(--guard);stroke-width:2.5}
+    .boxb{fill:var(--surf);stroke:var(--block);stroke-width:2.5}
+    .boxf{fill:var(--surf);stroke:var(--flow);stroke-width:2.5}
+    .ln{stroke:var(--flow);stroke-width:2.2;fill:none;marker-end:url(#af)}
+    .lnb{stroke:var(--block);stroke-width:2.2;fill:none;marker-end:url(#ab)}
+    .lnn{stroke:var(--dim);stroke-width:2;fill:none;marker-end:url(#ad)}
+    .note{fill:var(--surf);stroke:var(--dim);stroke-width:1.2;stroke-dasharray:5 4}
+    .ok{fill:var(--flow)}.no{fill:var(--block)}
+.band{fill:var(--comp);fill-opacity:.07;stroke:var(--comp);stroke-width:1.5;stroke-dasharray:7 5}.lna{stroke:var(--guard);stroke-width:2.2;fill:none;marker-end:url(#aa)}.lnx{stroke:var(--blockt);stroke-width:2.2;fill:none;stroke-dasharray:7 5;marker-end:url(#ab)}.lnd{stroke:var(--dim);stroke-width:1.7;fill:none;stroke-dasharray:6 4}.tg{font-size:11.5px;font-weight:600;fill:var(--guard)}.tb{font-size:12.5px;font-weight:600;fill:var(--blockt)}.tf{font-size:12.5px;font-weight:600;fill:var(--flowt)}</style>
+  <defs>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--flow)"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--block)"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--dim)"/></marker>
+<marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--guard)"/></marker></defs>
+  <rect width="1040" height="424" style="fill:var(--bg)"/>
+  <text x="30" y="40" class="h" text-anchor="start">Install with an agent</text>
+  <text x="30" y="62" class="s" text-anchor="start">You paste one short prompt. The agent does the rest and stops where only you can act.</text>
+  <rect x="26" y="100" width="188" height="92" rx="14" class="boxg"/>
+  <text x="120.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">1  You paste the prompt</text>
+  <text x="120.0" y="162" class="t3" text-anchor="middle">short text from the README</text>
+  <rect x="234" y="100" width="188" height="92" rx="14" class="box"/>
+  <text x="328.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">2  Agent reads the skill</text>
+  <text x="328.0" y="162" class="t3" text-anchor="middle">instalar-whatsapp</text>
+  <rect x="442" y="100" width="188" height="92" rx="14" class="box"/>
+  <text x="536.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">3  Diagnostic</text>
+  <text x="536.0" y="162" class="t3" text-anchor="middle">read-only, after every step</text>
+  <rect x="650" y="100" width="188" height="92" rx="14" class="box"/>
+  <text x="744.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">4  Picks the path</text>
+  <text x="744.0" y="162" class="t3" text-anchor="middle">A, B or C; asks if unsure</text>
+  <rect x="858" y="100" width="188" height="92" rx="14" class="box"/>
+  <text x="952.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">5  Installs what is missing</text>
+  <text x="952.0" y="162" class="t3" text-anchor="middle">asks before each program</text>
+  <rect x="26" y="270" width="188" height="92" rx="14" class="boxg"/>
+  <text x="120.0" y="308" class="t1" text-anchor="middle" style="font-size:13.5px">6  You scan the QR</text>
+  <text x="120.0" y="332" class="t3" text-anchor="middle">WhatsApp, Linked devices</text>
+  <rect x="234" y="270" width="188" height="92" rx="14" class="box"/>
+  <text x="328.0" y="308" class="t1" text-anchor="middle" style="font-size:13.5px">7  Registers the MCP server</text>
+  <text x="328.0" y="332" class="t3" text-anchor="middle">asks before editing config</text>
+  <rect x="442" y="270" width="188" height="92" rx="14" class="box"/>
+  <text x="536.0" y="308" class="t1" text-anchor="middle" style="font-size:13.5px">8  Proves it works</text>
+  <text x="536.0" y="332" class="t3" text-anchor="middle">lists one chat, never sends</text>
+  <rect x="650" y="270" width="188" height="92" rx="14" class="boxg"/>
+  <text x="744.0" y="308" class="t1" text-anchor="middle" style="font-size:13.5px">9  You choose the send mode</text>
+  <text x="744.0" y="332" class="t3" text-anchor="middle">installed as read-only</text>
+  <line x1="214" y1="146.0" x2="232" y2="146.0" class="lnn"/>
+  <line x1="422" y1="146.0" x2="440" y2="146.0" class="lnn"/>
+  <line x1="630" y1="146.0" x2="648" y2="146.0" class="lnn"/>
+  <line x1="838" y1="146.0" x2="856" y2="146.0" class="lnn"/>
+  <line x1="214" y1="316.0" x2="232" y2="316.0" class="lnn"/>
+  <line x1="422" y1="316.0" x2="440" y2="316.0" class="lnn"/>
+  <line x1="630" y1="316.0" x2="648" y2="316.0" class="lnn"/>
+  <path d="M952.0,192 V230 H120.0 V268" class="lnn"/>
+  <g transform="translate(30,400)">
+    <rect x="0" y="-8" width="22" height="14" rx="4" class="boxg"/>  <text x="32" y="4" class="t3" text-anchor="start">you act or decide</text>
+    <rect x="190" y="-8" width="22" height="14" rx="4" class="box"/>  <text x="222" y="4" class="t3" text-anchor="start">the agent acts</text>
+  </g>
+</svg>

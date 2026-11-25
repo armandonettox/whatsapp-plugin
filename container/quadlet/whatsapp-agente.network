@@ -1,0 +1,4 @@
+[Network]
+# Rede compartilhada so entre o servidor MCP e o container do agente. Nela o agente alcanca o
+# servidor MCP (que respeita os modos de envio) e mais nada do WhatsApp.
+NetworkName=whatsapp-agente

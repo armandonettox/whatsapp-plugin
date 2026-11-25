@@ -1,0 +1,39 @@
+name: Testes
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar o uv
+        run: python -m pip install uv
+      - name: Dependencias do servidor, pelo mesmo arquivo de travas que as pessoas usam
+        run: uv sync --project server --frozen --no-dev --no-install-project
+      - name: Testes (guarda, verificador, modos de envio, containers, skills)
+        run: uv run --project server --frozen python -m unittest discover -s tests -v
+      - name: Verificador de privacidade nos arquivos do repositorio
+        run: python scripts/check-privacy.py
+  bridge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: bridge/go.mod
+      - name: Testes da bridge (senha da API)
+        working-directory: bridge
+        run: go test ./...

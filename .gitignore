@@ -1,0 +1,19 @@
+# Dados e sessao do WhatsApp: quem le isso controla a conta
+data/
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Binarios e ambientes locais
+bridge/main.exe
+bridge/whatsapp-bridge
+*.exe
+.venv/
+__pycache__/
+*.pyc
+
+# Segredos
+.env
+.env.*
+!.env.example

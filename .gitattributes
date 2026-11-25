@@ -1,0 +1,10 @@
+# Scripts e codigo sempre com LF: no Windows o clone viria com CRLF e quebraria os hooks
+* text=auto
+*.sh text eol=lf
+*.py text eol=lf
+*.go text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.svg text eol=lf
+*.png binary
+.githooks/* text eol=lf

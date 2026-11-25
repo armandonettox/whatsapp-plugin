@@ -1,0 +1,20 @@
+whatsapp-plugin
+Copyright (c) 2026 armandonettox
+
+Este projeto reune codigo de terceiros. Os avisos abaixo precisam acompanhar qualquer copia.
+
+1. whatsapp-mcp
+   Copyright (c) 2025 Luke Harries
+   Licenca MIT (texto completo no arquivo LICENSE).
+   https://github.com/lharries/whatsapp-mcp
+   Origem do servidor MCP (server/) e da bridge (bridge/), com modificacoes: guarda de envio,
+   bridge escutando so em 127.0.0.1, envio de documentos com o tipo correto, transcricao de
+   audio opcional, skill, scripts e hooks.
+
+2. whatsmeow
+   Licenca MPL-2.0 (Mozilla Public License 2.0).
+   https://github.com/tulir/whatsmeow
+   Usada como biblioteca pela bridge, sem alteracoes no codigo dela. O texto da licenca
+   esta em https://www.mozilla.org/MPL/2.0/
+
+Este projeto nao tem ligacao com o WhatsApp nem com a Meta.

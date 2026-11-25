@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# Barra o commit se houver dado pessoal ou segredo nos arquivos que estao na area de staging.
+# Ativar uma vez por clone: git config core.hooksPath .githooks
+#
+# Escolhe um Python que funciona de verdade: no Windows, "python3" pode ser so um atalho da
+# Microsoft Store que termina com erro. Sem nenhum Python, bloqueia (falha fechado).
+PY=""
+for candidato in python3 python py; do
+  if command -v "$candidato" >/dev/null 2>&1 && "$candidato" -c "import sys" >/dev/null 2>&1; then
+    PY="$candidato"
+    break
+  fi
+done
+
+if [ -z "$PY" ]; then
+  echo "Verificador de privacidade: python nao encontrado; commit bloqueado por seguranca."
+  exit 1
+fi
+
+exec "$PY" scripts/check-privacy.py --staged

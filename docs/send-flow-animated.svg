@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" lang="en" viewBox="0 0 1040 400" width="1040" height="400" role="img" aria-labelledby="t d">
+  <title id="t">Send flow with the guard (animated)</title>
+  <desc id="d">The agent asks to send. The guard reads the user's last message. If it is a direct confirmation, the server sends through the bridge to WhatsApp. If it is an edit, a doubt or a refusal, the send is blocked and the agent asks for confirmation again.</desc>
+  <style>
+    :root{--bg:#F6F8F7;--text:#1B2A33;--dim:#5B6B73;--surf:#FFFFFF;--flow:#2BB673;--comp:#2F6F8F;--guard:#F2A93B;--block:#E5604D;--flowt:#1B7F52;--blockt:#B8402E}
+    @media (prefers-color-scheme: dark){:root{--bg:#0F1B22;--text:#E6EEF0;--dim:#9DB0B8;--surf:#16262F;--flow:#3DD68C;--comp:#5FA8C9;--guard:#F2A93B;--block:#F07C6B;--flowt:#3DD68C;--blockt:#F07C6B}}
+    text{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--text)}
+    .h{font-size:22px;font-weight:700}.s{font-size:13px;fill:var(--dim)}
+    .t1{font-size:15.5px;font-weight:600}.t2{font-size:12.5px;fill:var(--dim)}.t3{font-size:11.5px;fill:var(--dim)}
+    .box{fill:var(--surf);stroke:var(--comp);stroke-width:2}
+    .boxg{fill:var(--surf);stroke:var(--guard);stroke-width:2.5}
+    .boxb{fill:var(--surf);stroke:var(--block);stroke-width:2.5}
+    .boxf{fill:var(--surf);stroke:var(--flow);stroke-width:2.5}
+    .ln{stroke:var(--flow);stroke-width:2.2;fill:none;marker-end:url(#af)}
+    .lnb{stroke:var(--block);stroke-width:2.2;fill:none;marker-end:url(#ab)}
+    .lnn{stroke:var(--dim);stroke-width:2;fill:none;marker-end:url(#ad)}
+    .note{fill:var(--surf);stroke:var(--dim);stroke-width:1.2;stroke-dasharray:5 4}
+    .ok{fill:var(--flow)}.no{fill:var(--block)}
+</style>
+  <defs>
+    <marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--flow)"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--block)"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--dim)"/></marker>
+</defs>
+  <rect width="1040" height="400" style="fill:var(--bg)"/>
+  <text x="30" y="40" class="h">What happens when the agent tries to send</text>
+  <text x="30" y="62" class="s">Nothing is sent without your explicit confirmation. When in doubt, the guard blocks.</text>
+
+  <rect x="30" y="140" width="170" height="80" rx="14" class="box"/>
+  <text x="115" y="173" class="t1" text-anchor="middle">Agent asks</text>
+  <text x="115" y="193" class="t2" text-anchor="middle">send_message</text>
+  <text x="115" y="208" class="t3" text-anchor="middle">send_file · send_audio_message</text>
+
+  <line x1="200" y1="180" x2="250" y2="180" class="lnn"/>
+  <rect x="250" y="140" width="190" height="80" rx="14" class="boxg"/>
+  <text x="345" y="173" class="t1" text-anchor="middle">Send guard</text>
+  <text x="345" y="193" class="t2" text-anchor="middle">reads the last message</text>
+  <text x="345" y="209" class="t2" text-anchor="middle">you wrote</text>
+
+  <line x1="440" y1="180" x2="465" y2="180" class="lnn"/>
+  <polygon points="545,105 625,180 545,255 465,180" class="boxg"/>
+  <text x="545" y="171" class="t3" text-anchor="middle" style="fill:var(--text)">is it a</text>
+  <text x="545" y="186" class="t3" text-anchor="middle" style="fill:var(--text)">direct</text>
+  <text x="545" y="201" class="t3" text-anchor="middle" style="fill:var(--text)">confirmation?</text>
+
+  <line x1="625" y1="180" x2="680" y2="180" class="ln"/>
+  <text x="652" y="170" class="t3 ok" text-anchor="middle" style="fill:var(--flowt);font-weight:600">yes</text>
+  <rect x="680" y="140" width="150" height="80" rx="14" class="box"/>
+  <text x="755" y="173" class="t1" text-anchor="middle">MCP server</text>
+  <text x="755" y="193" class="t2" text-anchor="middle">→ bridge</text>
+  <text x="755" y="208" class="t3" text-anchor="middle">sends via WhatsApp</text>
+
+  <line x1="830" y1="180" x2="880" y2="180" class="ln"/>
+  <rect x="880" y="140" width="130" height="80" rx="14" class="boxf"/>
+  <text x="945" y="177" class="t1" text-anchor="middle">Sent</text>
+  <text x="945" y="198" class="t2" text-anchor="middle">after you</text>
+  <text x="945" y="212" class="t2" text-anchor="middle">confirm</text>
+
+  <line x1="545" y1="255" x2="545" y2="300" class="lnb"/>
+  <text x="557" y="283" class="t3" style="fill:var(--blockt);font-weight:600">no, edit or doubt</text>
+  <rect x="440" y="300" width="210" height="76" rx="14" class="boxb"/>
+  <text x="545" y="331" class="t1" text-anchor="middle" style="fill:var(--blockt)">BLOCKED</text>
+  <text x="545" y="352" class="t2" text-anchor="middle">shows the exact text and recipient</text>
+  <text x="545" y="367" class="t2" text-anchor="middle">and asks for confirmation again</text>
+
+  <rect x="30" y="290" width="380" height="88" rx="12" class="note"/>
+  <text x="46" y="313" class="t3"><tspan style="fill:var(--flowt);font-weight:600">Confirm:</tspan> yes, send it, go ahead, confirm, sounds good</text>
+  <text x="46" y="334" class="t3"><tspan style="fill:var(--blockt);font-weight:600">Block:</tspan> no, but, change, wait, "yes, but change the hi",</text>
+  <text x="46" y="350" class="t3">any question and long sentences</text>
+  <text x="46" y="368" class="t3"><tspan style="font-weight:600;fill:var(--text)">Fails closed:</tspan> if it cannot check, it blocks.</text>
+
+  <g>
+    <circle r="9" style="fill:var(--block)" opacity="0">
+      <animateMotion dur="9s" repeatCount="indefinite" path="M115,180 H545 V300" keyPoints="0;1;1" keyTimes="0;0.42;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;1;1;0;0" keyTimes="0;0.02;0.42;0.5;1"/>
+    </circle>
+    <circle r="9" style="fill:var(--flow)" opacity="0">
+      <animateMotion dur="9s" repeatCount="indefinite" path="M115,180 H945" keyPoints="0;0;1;1" keyTimes="0;0.52;0.93;1" calcMode="linear"/>
+      <animate attributeName="opacity" dur="9s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.52;0.54;0.93;0.98;1"/>
+    </circle>
+  </g>
+  <g transform="translate(700,330)">
+    <circle cx="0" cy="0" r="6" style="fill:var(--block)"/><text x="14" y="4" class="t3">no confirmation: stopped at the guard</text>
+    <circle cx="0" cy="22" r="6" style="fill:var(--flow)"/><text x="14" y="26" class="t3">with confirmation: reaches WhatsApp</text>
+  </g>
+
+</svg>

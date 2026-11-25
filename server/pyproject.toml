@@ -1,0 +1,17 @@
+[project]
+name = "whatsapp-mcp-server"
+version = "0.1.0"
+description = "Servidor MCP que expoe o WhatsApp (via bridge local) a agentes de IA"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.29.0,<2",
+    "requests>=2.32.3",
+]
+
+[project.optional-dependencies]
+# Transcricao de audio local. Pesado (PyTorch) e precisa de ffmpeg: so instale se for usar.
+audio = [
+    "openai-whisper>=20250625",
+]

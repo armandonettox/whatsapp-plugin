@@ -1,0 +1,64 @@
+# Bridge e servidor MCP em containers, para rodar no seu computador (Docker ou Podman Compose).
+#
+# Primeira vez:
+#   1. cp container/.env.example container/.env   e preencha WHATSAPP_BRIDGE_TOKEN
+#   2. docker compose -f container/compose.yaml --env-file container/.env build
+#   3. docker compose -f container/compose.yaml --env-file container/.env run --rm -it bridge
+#      (leia o QR no celular e feche com Ctrl+C quando conectar)
+#   4. docker compose -f container/compose.yaml --env-file container/.env up -d
+#
+# O servidor MCP fica em http://127.0.0.1:8765/mcp, so no seu computador. A bridge nao tem porta
+# publicada e fica numa rede (back) que o agente nao alcanca.
+
+name: whatsapp
+
+services:
+  bridge:
+    build:
+      context: ..
+      dockerfile: container/bridge.Containerfile
+    image: whatsapp-bridge:0.1.0
+    container_name: whatsapp-bridge
+    restart: unless-stopped
+    environment:
+      WHATSAPP_BRIDGE_TOKEN: ${WHATSAPP_BRIDGE_TOKEN:?defina a senha no arquivo container/.env (veja .env.example)}
+    volumes:
+      - whatsapp-data:/app/data
+    networks:
+      - back
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+  mcp:
+    build:
+      context: ..
+      dockerfile: container/mcp.Containerfile
+    image: whatsapp-mcp:0.1.0
+    container_name: whatsapp-mcp
+    restart: unless-stopped
+    depends_on:
+      - bridge
+    environment:
+      WHATSAPP_BRIDGE_TOKEN: ${WHATSAPP_BRIDGE_TOKEN:?defina a senha no arquivo container/.env (veja .env.example)}
+      WHATSAPP_SEND_MODE: ${WHATSAPP_SEND_MODE:-read-only}
+      WHATSAPP_CONFIRM_COMMAND: docker exec -it whatsapp-mcp python confirm.py
+    volumes:
+      - whatsapp-data:/app/data
+    ports:
+      - "127.0.0.1:8765:8765"
+    networks:
+      - back
+      - agente
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  back: {}
+  agente: {}
+
+volumes:
+  whatsapp-data: {}

@@ -1,0 +1,27 @@
+[Unit]
+Description=Servidor MCP do WhatsApp (HTTP, so na rede do agente)
+After=whatsapp-bridge.service
+Requires=whatsapp-bridge.service
+
+[Container]
+Image=localhost/whatsapp-mcp:0.1.0
+ContainerName=whatsapp-mcp
+# Fala com a bridge pela rede back e com o agente pela rede agente. Nenhuma porta e publicada.
+Network=whatsapp-back.network
+Network=whatsapp-agente.network
+Volume=whatsapp-data.volume:/app/data:U
+Secret=whatsapp-bridge-token,type=env,target=WHATSAPP_BRIDGE_TOKEN
+# read-only (padrao) ou two-step. Nao use hook: ele depende do guarda do Claude Code
+Environment=WHATSAPP_SEND_MODE=read-only
+# Comando que o servidor mostra a pessoa para confirmar um rascunho (modo two-step)
+# Valor com espacos precisa de aspas: sem elas o Quadlet corta no primeiro espaco
+Environment="WHATSAPP_CONFIRM_COMMAND=podman exec -it whatsapp-mcp python confirm.py"
+DropCapability=ALL
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

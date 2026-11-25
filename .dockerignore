@@ -1,0 +1,12 @@
+# Fora do contexto de build: dados pessoais, historico e ambientes locais
+.git
+data/
+**/__pycache__
+**/.venv
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.exe
+.env
+.env.*
