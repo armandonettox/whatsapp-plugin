@@ -27,8 +27,8 @@ jobs:
           - { os: ubuntu-22.04, goos: linux, goarch: amd64, arquivo: whatsapp-bridge-linux-amd64 }
           - { os: ubuntu-22.04-arm, goos: linux, goarch: arm64, arquivo: whatsapp-bridge-linux-arm64 }
           - { os: windows-latest, goos: windows, goarch: amd64, arquivo: whatsapp-bridge-windows-amd64.exe }
-          - { os: macos-14, goos: darwin, goarch: arm64, arquivo: whatsapp-bridge-darwin-arm64 }
-          - { os: macos-14, goos: darwin, goarch: amd64, arquivo: whatsapp-bridge-darwin-amd64 }
+          - { os: macos-15, goos: darwin, goarch: arm64, arquivo: whatsapp-bridge-darwin-arm64 }
+          - { os: macos-15, goos: darwin, goarch: amd64, arquivo: whatsapp-bridge-darwin-amd64 }
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
