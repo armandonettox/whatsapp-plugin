@@ -37,7 +37,7 @@ def resumo(chat_jid: str, limite: int = 40) -> str:
 
     cur.execute(
         f"""
-        SELECT timestamp, is_from_me, content, media_type
+        SELECT timestamp, is_from_me, content, media_type, filename
         FROM messages
         WHERE chat_jid IN ({marcas})
         ORDER BY timestamp DESC
@@ -54,11 +54,13 @@ def resumo(chat_jid: str, limite: int = 40) -> str:
     linhas.reverse()  # cronologico (mais antiga primeiro)
 
     partes = [f"=== Historico com {nome} ({chat_jid}) -- {len(linhas)} mensagens ==="]
-    for timestamp, is_from_me, content, media_type in linhas:
+    for timestamp, is_from_me, content, media_type, filename in linhas:
         quem = "EU" if is_from_me else "ELE(A)"
         hora = timestamp[:16].replace("T", " ") if "T" in str(timestamp) else str(timestamp)[:16]
         if media_type:
-            texto = f"[{media_type}]"
+            texto = comum.rotulo_de_midia(media_type, filename)
+            if content:
+                texto += " " + content.replace("\n", " ")[:300]
         elif content:
             texto = content.replace("\n", " ")[:300]
         else:

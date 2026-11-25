@@ -10,8 +10,7 @@ Você precisa de:
 |---|---|
 | Um agente com suporte a MCP | Claude Code, OpenBot, Codex, OpenCode, OpenClaw ou outro, veja [agentes.md](agentes.md) |
 | [`uv`](https://docs.astral.sh/uv/) | roda o servidor MCP |
-| [Go](https://go.dev/dl/) 1.25 ou superior | compila a bridge |
-| Compilador C | a bridge usa SQLite via CGO. No Windows, instale o MSYS2/MinGW e deixe o `gcc` no PATH |
+| [Go](https://go.dev/dl/) 1.25 ou superior e compilador C | só se for compilar a bridge (SQLite via CGO). No Windows, instale o MSYS2/MinGW e deixe o `gcc` no PATH. Com a bridge pronta da release, dispensa os dois |
 | Um celular com WhatsApp | para ler o QR de conexão |
 | `ffmpeg` (opcional) | só para transcrever áudios e enviar mensagens de voz |
 
@@ -40,7 +39,15 @@ Ative o verificador de privacidade antes de qualquer commit seu (só é preciso 
 git config core.hooksPath .githooks
 ```
 
-## 3. Compilar a bridge
+## 3. Obter a bridge
+
+O caminho rápido é baixar a bridge pronta da release (confere o SHA-256 antes de gravar):
+
+```
+python skills/instalar-whatsapp/scripts/baixar_bridge.py
+```
+
+Se o script disser que não há bridge para o seu sistema, ou se faltar rede, compile:
 
 ```
 cd bridge
@@ -59,6 +66,8 @@ Rode a bridge **em um terminal**, para ver o QR:
 ```
 
 No celular: **WhatsApp, Aparelhos conectados, Conectar um aparelho**, e leia o QR do terminal. Quando aparecer "Connected to WhatsApp", a bridge começa a baixar o histórico. Pode deixá-la rodando ou fechar com Ctrl+C: nas próximas vezes o hook do Claude Code a liga sozinho, e nos outros agentes você a inicia à mão.
+
+Sem terminal à mão (por exemplo, conversando com um agente pelo chat ou pelo celular)? Enquanto espera o pareamento, a bridge grava o mesmo QR como imagem em `data/store/qr.png` e a renova sozinha a cada poucos segundos. Abra ou peça ao agente para anexar esse arquivo; se expirar, abra de novo. O arquivo é apagado quando o pareamento termina. Trate-o como uma senha: quem lê o QR a tempo conecta a sua conta.
 
 A sessão fica guardada em `data/store`. Se o aparelho for desconectado pelo celular, a bridge pede um novo QR.
 

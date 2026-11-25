@@ -44,11 +44,20 @@ O agente alcança apenas o servidor MCP, em `http://whatsapp-mcp:8765/mcp`. Ele 
 
 Os arquivos estão em `container/quadlet/`. Tudo roda sem root, no usuário que já roda o OpenBot.
 
+**O caminho rápido: dois comandos.** No terminal do servidor, com o plugin clonado:
+
+```
+bash container/instalar-vps.sh            # constrói, cria a senha, instala os Quadlets e mostra o QR
+bash container/instalar-vps.sh servidor   # sobe o servidor MCP e liga o OpenBot à rede dele
+```
+
+O primeiro comando constrói as imagens, cria a senha como segredo do Podman (sem mostrá-la), instala os arquivos e inicia a bridge, mostrando o QR: leia no celular e aperte Ctrl+C quando conectar. O segundo sobe o servidor e, **só depois de perguntar**, acrescenta `Network=whatsapp-agente.network` ao arquivo do OpenBot (com cópia em `.bak`) e o reinicia. Opções: `--audio` (transcrição de áudio), `--sem-openbot`, `--openbot-arquivo <caminho>` e `--sim` (não pergunta). `status` mostra o que está rodando. Os passos abaixo são o mesmo processo feito à mão.
+
 **1. Construa as imagens**, a partir da pasta do plugin:
 
 ```
-podman build -f container/bridge.Containerfile -t localhost/whatsapp-bridge:0.1.0 .
-podman build -f container/mcp.Containerfile    -t localhost/whatsapp-mcp:0.1.0 .
+podman build -f container/bridge.Containerfile -t localhost/whatsapp-bridge:0.1.1 .
+podman build -f container/mcp.Containerfile    -t localhost/whatsapp-mcp:0.1.1 .
 ```
 
 Para transcrever áudios, acrescente `--build-arg INSTALL_AUDIO=1` na segunda (a imagem fica bem maior).

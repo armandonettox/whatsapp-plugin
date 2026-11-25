@@ -6,6 +6,7 @@ A propriedade mais importante: o verificador nunca mostra o valor da senha da br
 
 import importlib.util
 import json
+import shutil
 import sqlite3
 import subprocess
 import sys
@@ -109,6 +110,25 @@ class TesteSessaoEBridge(unittest.TestCase):
         (self.raiz / "bridge").mkdir()
         (self.raiz / "bridge" / "main.exe").write_bytes(b"x")
         self.assertEqual(estados(v.verificar_bridge(self.raiz))["Bridge compilada"], "OK")
+
+    def test_bridge_ausente_aponta_para_o_download_da_pronta(self):
+        linha = v.verificar_bridge(self.raiz)[0]
+        self.assertEqual(linha["estado"], "FALTA")
+        self.assertIn("baixar_bridge.py", linha["proximo"])
+
+    def test_mcp_instalado_no_venv_do_servidor_conta_como_ok(self):
+        self.assertFalse(v.mcp_no_ambiente_do_servidor(self.raiz))
+        for sub in (("Lib", "site-packages"), ("lib", "python3.12", "site-packages")):
+            with self.subTest(sub=sub):
+                pasta = self.raiz / "server" / ".venv" / Path(*sub) / "mcp"
+                pasta.mkdir(parents=True)
+                self.assertTrue(v.mcp_no_ambiente_do_servidor(self.raiz))
+                self.assertEqual(estados(v.verificar_pacote_mcp(self.raiz))["Pacote mcp do servidor"], "OK")
+                shutil.rmtree(self.raiz / "server")
+
+    def test_mcp_ausente_do_venv_nao_acusa_erro(self):
+        for linha in v.verificar_pacote_mcp(self.raiz):
+            self.assertNotEqual(linha["estado"], "FALTA")
 
     def test_bridge_parada_nao_e_erro(self):
         linhas = v.verificar_bridge_rodando({}, aceita=lambda h, p, t=1.0: False)

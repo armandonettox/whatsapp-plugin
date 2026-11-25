@@ -99,7 +99,7 @@ def verificar_bridge(raiz: Path) -> list:
     existente = next((b for b in binarios if b.is_file()), None)
     if existente:
         return [linha("OK", "Bridge compilada", existente.name)]
-    return [linha("FALTA", "Bridge compilada", "", "Compile: cd bridge && go build -o main.exe . (Windows) ou go build -o whatsapp-bridge . (outros)")]
+    return [linha("FALTA", "Bridge compilada", "", "Baixe a pronta: python skills/instalar-whatsapp/scripts/baixar_bridge.py (sem Go nem compilador). Se nao houver para o seu sistema, compile: cd bridge && go build -o main.exe . (Windows) ou go build -o whatsapp-bridge . (outros)")]
 
 
 def sessao_pareada(pasta_store: Path):
@@ -176,10 +176,19 @@ def verificar_dados(raiz: Path) -> list:
     return [linha("INFO", "Pasta data/", "ainda nao existe", "Sera criada na primeira execucao.")]
 
 
-def verificar_pacote_mcp() -> list:
+def mcp_no_ambiente_do_servidor(raiz: Path) -> bool:
+    """True se o ambiente que o uv criou em server/.venv tem o pacote mcp."""
+    venv = raiz / "server" / ".venv"
+    pacotes = [venv / "Lib" / "site-packages"] + sorted(venv.glob("lib/python*/site-packages"))
+    return any((p / "mcp").is_dir() for p in pacotes)
+
+
+def verificar_pacote_mcp(raiz: Path = RAIZ) -> list:
+    if mcp_no_ambiente_do_servidor(raiz):
+        return [linha("OK", "Pacote mcp do servidor", "instalado no ambiente do uv (server/.venv)")]
     if importlib.util.find_spec("mcp") is not None:
         return [linha("INFO", "Pacote mcp neste Python", "instalado (o uv usa o ambiente proprio do servidor)")]
-    return [linha("INFO", "Pacote mcp neste Python", "ausente", "Normal: o uv instala as dependencias do servidor no ambiente dele.")]
+    return [linha("INFO", "Pacote mcp do servidor", "ainda nao instalado", "Normal antes da primeira execucao: o uv instala as dependencias do servidor no ambiente dele.")]
 
 
 def verificar(raiz: Path = RAIZ, ambiente=None, caminho: str = "nativo") -> list:
@@ -190,7 +199,7 @@ def verificar(raiz: Path = RAIZ, ambiente=None, caminho: str = "nativo") -> list
         sessao = verificar_sessao(raiz, ambiente)
         linhas += sessao
         linhas += verificar_bridge_rodando(ambiente, pareada=all(l["estado"] == "OK" for l in sessao))
-        linhas += verificar_pacote_mcp()
+        linhas += verificar_pacote_mcp(raiz)
     linhas += verificar_envio(ambiente)
     linhas += verificar_dados(raiz)
     return linhas

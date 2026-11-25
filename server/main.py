@@ -1,4 +1,6 @@
 import os
+from dataclasses import asdict, is_dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from mcp.server.fastmcp import FastMCP
@@ -64,6 +66,27 @@ if TRANSPORTE["transporte"] == "streamable-http":
 
 mcp = FastMCP("whatsapp", instructions=INSTRUCOES_POR_MODO[MODO_DE_ENVIO], **_argumentos_http)
 
+
+def _serializar(valor: Any) -> Any:
+    """Converte dataclasses e datas devolvidas por whatsapp.py em dict, lista e texto.
+
+    As ferramentas declaram dict ou lista como retorno, e versoes novas do pacote mcp validam
+    a saida contra essa declaracao: devolver o objeto da dataclass faz a ferramenta falhar.
+    """
+    if is_dataclass(valor) and not isinstance(valor, type):
+        dados = {k: _serializar(v) for k, v in asdict(valor).items()}
+        if hasattr(valor, "is_group"):
+            dados["is_group"] = valor.is_group
+        return dados
+    if isinstance(valor, datetime):
+        return valor.isoformat()
+    if isinstance(valor, (list, tuple)):
+        return [_serializar(item) for item in valor]
+    if isinstance(valor, dict):
+        return {k: _serializar(v) for k, v in valor.items()}
+    return valor
+
+
 @mcp.tool()
 def search_contacts(query: str) -> List[Dict[str, Any]]:
     """Search WhatsApp contacts by name or phone number.
@@ -72,7 +95,7 @@ def search_contacts(query: str) -> List[Dict[str, Any]]:
         query: Search term to match against contact names or phone numbers
     """
     contacts = whatsapp_search_contacts(query)
-    return contacts
+    return _serializar(contacts)
 
 @mcp.tool()
 def list_messages(
@@ -86,7 +109,7 @@ def list_messages(
     include_context: bool = True,
     context_before: int = 1,
     context_after: int = 1
-) -> List[Dict[str, Any]]:
+) -> str:
     """Get WhatsApp messages matching specified criteria with optional context.
     
     Args:
@@ -113,7 +136,7 @@ def list_messages(
         context_before=context_before,
         context_after=context_after
     )
-    return messages
+    return messages if isinstance(messages, str) else ""
 
 @mcp.tool()
 def list_chats(
@@ -139,10 +162,10 @@ def list_chats(
         include_last_message=include_last_message,
         sort_by=sort_by
     )
-    return chats
+    return _serializar(chats)
 
 @mcp.tool()
-def get_chat(chat_jid: str, include_last_message: bool = True) -> Dict[str, Any]:
+def get_chat(chat_jid: str, include_last_message: bool = True) -> Optional[Dict[str, Any]]:
     """Get WhatsApp chat metadata by JID.
     
     Args:
@@ -150,17 +173,17 @@ def get_chat(chat_jid: str, include_last_message: bool = True) -> Dict[str, Any]
         include_last_message: Whether to include the last message (default True)
     """
     chat = whatsapp_get_chat(chat_jid, include_last_message)
-    return chat
+    return _serializar(chat)
 
 @mcp.tool()
-def get_direct_chat_by_contact(sender_phone_number: str) -> Dict[str, Any]:
+def get_direct_chat_by_contact(sender_phone_number: str) -> Optional[Dict[str, Any]]:
     """Get WhatsApp chat metadata by sender phone number.
     
     Args:
         sender_phone_number: The phone number to search for
     """
     chat = whatsapp_get_direct_chat_by_contact(sender_phone_number)
-    return chat
+    return _serializar(chat)
 
 @mcp.tool()
 def get_contact_chats(jid: str, limit: int = 20, page: int = 0) -> List[Dict[str, Any]]:
@@ -172,10 +195,10 @@ def get_contact_chats(jid: str, limit: int = 20, page: int = 0) -> List[Dict[str
         page: Page number for pagination (default 0)
     """
     chats = whatsapp_get_contact_chats(jid, limit, page)
-    return chats
+    return _serializar(chats)
 
 @mcp.tool()
-def get_last_interaction(jid: str) -> str:
+def get_last_interaction(jid: str) -> Optional[str]:
     """Get most recent WhatsApp message involving the contact.
     
     Args:
@@ -198,7 +221,7 @@ def get_message_context(
         after: Number of messages to include after the target message (default 5)
     """
     context = whatsapp_get_message_context(message_id, before, after)
-    return context
+    return _serializar(context)
 
 def send_message(
     recipient: str,

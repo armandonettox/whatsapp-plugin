@@ -9,7 +9,7 @@
       "name": "whatsapp",
       "description": "Le e busca conversas do WhatsApp, transcreve audios, sugere respostas no seu tom e so envia depois da sua confirmacao explicita.",
       "source": "./",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "license": "MIT",
       "keywords": ["whatsapp", "mcp", "skill", "guard"]
     }

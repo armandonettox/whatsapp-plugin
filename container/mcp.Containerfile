@@ -1,8 +1,8 @@
 # Servidor MCP do WhatsApp em container, falando por HTTP.
 # Construir a partir da raiz do plugin:
-#   podman build -f container/mcp.Containerfile -t localhost/whatsapp-mcp:0.1.0 .
+#   podman build -f container/mcp.Containerfile -t localhost/whatsapp-mcp:0.1.1 .
 #   Com transcricao de audio (imagem bem maior): acrescente --build-arg INSTALL_AUDIO=1
-#   (com Docker: docker build -f container/mcp.Containerfile -t whatsapp-mcp:0.1.0 .)
+#   (com Docker: docker build -f container/mcp.Containerfile -t whatsapp-mcp:0.1.1 .)
 
 FROM docker.io/library/python:3.12-slim-bookworm
 ARG INSTALL_AUDIO=0

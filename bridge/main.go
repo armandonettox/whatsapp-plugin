@@ -50,12 +50,12 @@ type MessageStore struct {
 // Initialize message store
 func NewMessageStore() (*MessageStore, error) {
 	// Create directory for database if it doesn't exist
-	if err := os.MkdirAll("../data/store", 0755); err != nil {
+	if err := os.MkdirAll(pastaDoStore(), 0755); err != nil {
 		return nil, fmt.Errorf("failed to create store directory: %v", err)
 	}
 
 	// Open SQLite database for messages
-	db, err := sql.Open("sqlite3", "file:../data/store/messages.db?_foreign_keys=on")
+	db, err := sql.Open("sqlite3", uriDoBanco("messages.db"))
 	if err != nil {
 		return nil, fmt.Errorf("failed to open message database: %v", err)
 	}
@@ -653,7 +653,7 @@ func downloadMedia(client *whatsmeow.Client, messageStore *MessageStore, message
 	var err error
 
 	// First, check if we already have this file
-	chatDir := fmt.Sprintf("../data/store/%s", strings.ReplaceAll(chatJID, ":", "_"))
+	chatDir := filepath.Join(pastaDoStore(), strings.ReplaceAll(chatJID, ":", "_"))
 	localPath := ""
 
 	// Get media info from the database
@@ -1043,12 +1043,12 @@ func main() {
 	dbLog := waLog.Stdout("Database", "INFO", true)
 
 	// Create directory for database if it doesn't exist
-	if err := os.MkdirAll("../data/store", 0755); err != nil {
+	if err := os.MkdirAll(pastaDoStore(), 0755); err != nil {
 		logger.Errorf("Failed to create store directory: %v", err)
 		return
 	}
 
-	container, err := sqlstore.New(context.Background(), "sqlite3", "file:../data/store/whatsapp.db?_foreign_keys=on", dbLog)
+	container, err := sqlstore.New(context.Background(), "sqlite3", uriDoBanco("whatsapp.db"), dbLog)
 	if err != nil {
 		logger.Errorf("Failed to connect to database: %v", err)
 		return
@@ -1127,9 +1127,18 @@ func main() {
 			if evt.Event == "code" {
 				fmt.Println("\nScan this QR code with your WhatsApp app:")
 				qrterminal.GenerateHalfBlock(evt.Code, qrterminal.L, os.Stdout)
+				// Mesmo QR como imagem, que o WhatsApp renova sozinho a cada poucos segundos
+				if err := salvarQR(evt.Code, caminhoDoQR()); err != nil {
+					logger.Warnf("Nao consegui gravar a imagem do QR: %v", err)
+				} else {
+					fmt.Printf("QR tambem salvo como imagem em %s\n", caminhoDoQR())
+				}
 			} else if evt.Event == "success" {
+				apagarQR(caminhoDoQR())
 				connected <- true
 				break
+			} else {
+				apagarQR(caminhoDoQR())
 			}
 		}
 

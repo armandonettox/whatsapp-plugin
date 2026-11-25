@@ -101,7 +101,7 @@ class TesteSkills(unittest.TestCase):
                                  "aguardar_backlog.py", "resumo_sessao.py", "caminhos.py", "_comum.py"},
             "notas-por-contato": {"criar_nota.py", "compromissos.py", "_comum.py"},
             "mensagens-em-partes": {"dividir_mensagem.py"},
-            "instalar-whatsapp": {"verificar_instalacao.py"},
+            "instalar-whatsapp": {"verificar_instalacao.py", "baixar_bridge.py"},
         }
         for skill, nomes in esperados.items():
             with self.subTest(skill=skill):

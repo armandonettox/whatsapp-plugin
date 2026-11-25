@@ -33,7 +33,7 @@ Install the WhatsApp plugin for me. Clone https://github.com/armandonettox/whats
 
 ![Install flow: you paste the prompt, the agent installs and stops where only you can act](docs/install-flow.svg)
 
-The agent follows the [`instalar-whatsapp`](skills/instalar-whatsapp/SKILL.md) skill: it detects your system and which agent it is running in, picks the right path, installs what is missing (with your permission), builds the bridge, registers the MCP server, checks that everything works and hands you a summary. After every step it runs a diagnostic (`skills/instalar-whatsapp/scripts/verificar_instalacao.py`) that only reads and tells you what is still missing. The skill itself is written in Portuguese, which the agent reads without trouble.
+The agent follows the [`instalar-whatsapp`](skills/instalar-whatsapp/SKILL.md) skill: it detects your system and which agent it is running in, asks every choice in a single message, installs what is missing (with your permission), downloads the ready-made bridge (or builds it), registers the MCP server, checks that everything works and hands you a summary. After every step it runs a diagnostic (`skills/instalar-whatsapp/scripts/verificar_instalacao.py`) that only reads and tells you what is still missing. The skill itself is written in Portuguese, which the agent reads without trouble.
 
 **What stays with you:**
 
@@ -122,8 +122,7 @@ An agent that has a terminal and runs without asking could call the bridge API d
 |---|---|
 | An agent with MCP support | Claude Code, OpenBot, Codex, OpenCode, OpenClaw or another |
 | [`uv`](https://docs.astral.sh/uv/) | runs the MCP server |
-| [Go](https://go.dev/dl/) 1.25 or newer | builds the bridge |
-| C compiler (`gcc`) | the bridge uses SQLite through CGO (on Windows, MSYS2/MinGW) |
+| [Go](https://go.dev/dl/) 1.25 or newer and a C compiler (`gcc`) | only if you build the bridge yourself (it uses SQLite through CGO; on Windows, MSYS2/MinGW). The release has a ready-made bridge, so most people skip both |
 | `ffmpeg` and the `audio` extra | only if you transcribe voice notes (optional) |
 | A phone with WhatsApp | to scan the connection QR code |
 
@@ -137,10 +136,17 @@ Tested on Windows 11. On Linux and macOS the code is the same (continuous integr
 git clone https://github.com/armandonettox/whatsapp-plugin.git
 ```
 
-**2. Build the bridge**
+**2. Get the bridge.** Download the ready-made one for your system (Windows, Linux or macOS, amd64 or arm64). The script checks the published SHA-256 before saving the file:
 
 ```
-cd whatsapp-plugin/bridge
+cd whatsapp-plugin
+python skills/instalar-whatsapp/scripts/baixar_bridge.py
+```
+
+No ready-made bridge for your system, or no network? Build it (needs Go and a C compiler):
+
+```
+cd bridge
 go build -o main.exe .            # Windows
 go build -o whatsapp-bridge .     # Linux and macOS
 ```
@@ -238,11 +244,11 @@ The detailed guides are currently written in Portuguese.
 
 ## Project status
 
-Version `0.1.0`.
+Version `0.1.1`.
 
 **Tested:** automated tests run on Linux and Windows on every push (send guard, send modes, HTTP server, bridge password, container files, skills and the privacy checker); `docker compose config` accepts the Compose file; the Quadlets passed the Podman 4.9 generator dry run; and an agent followed the install prompt, in rehearsal mode, up to the QR step.
 
-**Not tested yet:** building the container images and running OpenBot with them; registering the server by URL in OpenBot (its registration screen is not documented); the full flow after scanning the QR code with this version; the `winget` and `brew` install commands in the skill.
+**Not tested yet:** the ready-made bridge download (it works as soon as a release carries the binaries built by the release workflow); building the container images and running OpenBot with them (the VPS script is tested with stand-ins for `podman` and `systemctl`); registering the server by URL in OpenBot (its registration screen is not documented); the full flow after scanning the QR code with this version; the `winget` and `brew` install commands in the skill.
 
 ## Credits and license
 

@@ -198,5 +198,81 @@ class TestSkillsSozinhas(BaseScripts):
         self.assertEqual(Path(notas), RAIZ / "data" / "notas")
 
 
+class TestDocumentoComNome(BaseScripts):
+    """Mensagem de arquivo mostra o nome dele, para a triagem julgar a urgencia sem baixar o anexo."""
+
+    def setUp(self):
+        super().setUp()
+        import sqlite3
+
+        con = sqlite3.connect(self.store / "messages.db")
+        con.execute(
+            "INSERT INTO messages (id, chat_jid, sender, content, timestamp, is_from_me, media_type, filename) "
+            "VALUES ('doc1', ?, ?, '', ?, 0, 'document', 'contrato-exemplo.pdf')",
+            (fixtures.JOAO_PN, fixtures.JOAO_PN.split("@")[0], fixtures._ts(1)),
+        )
+        con.execute(
+            "INSERT INTO messages (id, chat_jid, sender, content, timestamp, is_from_me, media_type, filename) "
+            "VALUES ('img1', ?, ?, 'olha a foto', ?, 0, 'image', NULL)",
+            (fixtures.PEDRO_PN, fixtures.PEDRO_PN.split("@")[0], fixtures._ts(2)),
+        )
+        con.commit()
+        con.close()
+
+    def test_pendentes_mostra_o_nome_do_arquivo(self):
+        self.assertIn("[document: contrato-exemplo.pdf]", self.rodar("listar_pendentes.py"))
+
+    def test_resumo_mostra_o_nome_do_arquivo(self):
+        self.assertIn("[document: contrato-exemplo.pdf]", self.rodar("resumo_contato.py", fixtures.JOAO_PN))
+
+    def test_busca_mostra_o_nome_do_arquivo(self):
+        self.assertIn("[document: contrato-exemplo.pdf]", self.rodar("buscar_contato.py", "joao"))
+
+    def test_midia_sem_nome_continua_so_com_o_tipo_e_mantem_a_legenda(self):
+        saida = self.rodar("resumo_contato.py", fixtures.PEDRO_PN)
+        self.assertIn("[image] olha a foto", saida)
+        self.assertNotIn("[image:", saida)
+
+
+class TestSkillCopiadaParaOutroLugar(BaseScripts):
+    """Skill importada na biblioteca de um agente: os dados sao achados pela pasta de trabalho."""
+
+    def preparar(self):
+        raiz = Path(self.tmp.name).resolve() / "workspace"
+        (raiz / "whatsapp-plugin" / "data").mkdir(parents=True)
+        shutil.copytree(self.store, raiz / "whatsapp-plugin" / "data" / "store")
+        copia = raiz / ".agents" / "skills" / "triagem-whatsapp"
+        shutil.copytree(TRIAGEM.parent, copia, ignore=shutil.ignore_patterns("__pycache__"))
+        return raiz, copia
+
+    def caminhos(self, copia, cwd):
+        env = {k: v for k, v in os.environ.items() if not k.startswith("WHATSAPP_")}
+        env["PYTHONIOENCODING"] = "utf-8"
+        r = subprocess.run(
+            [sys.executable, str(copia / "scripts" / "caminhos.py")],
+            capture_output=True, text=True, encoding="utf-8", env=env, cwd=cwd, timeout=60,
+        )
+        self.assertEqual(r.returncode, 0, r.stderr)
+        return r.stdout
+
+    def test_acha_o_data_a_partir_da_pasta_de_trabalho(self):
+        raiz, copia = self.preparar()
+        saida = self.caminhos(copia, raiz)
+        self.assertIn(str(raiz / "whatsapp-plugin" / "data" / "store"), saida)
+        self.assertIn("[existe]", saida.splitlines()[0])
+
+    def test_acha_o_data_de_dentro_de_uma_subpasta(self):
+        raiz, copia = self.preparar()
+        sub = raiz / "trabalho" / "fundo"
+        sub.mkdir(parents=True)
+        self.assertIn(str(raiz / "whatsapp-plugin" / "data" / "store"), self.caminhos(copia, sub))
+
+    def test_sem_dados_por_perto_nao_inventa_caminho_existente(self):
+        _, copia = self.preparar()
+        vazio = Path(self.tmp.name) / "vazio"
+        vazio.mkdir()
+        self.assertIn("[ainda nao existe]", self.caminhos(copia, vazio).splitlines()[0])
+
+
 if __name__ == "__main__":
     unittest.main()

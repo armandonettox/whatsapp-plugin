@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 424" width="1040" height="424" role="img" aria-labelledby="t d" lang="en">
   <title id="t">Install with an agent</title>
-  <desc id="d">Nine steps. You paste a short prompt. The agent reads the install skill, runs a read-only diagnostic after every step, picks the path, installs what is missing asking first, then stops so you can scan the QR code. It registers the MCP server, proves it works by listing one chat without sending anything, and stops again so you choose the send mode. The install ends with sending disabled.</desc>
+  <desc id="d">Nine steps. You paste a short prompt. The agent reads the install skill, runs a read-only diagnostic after every step, asks every choice in one message, installs what is missing asking first, gets the ready-made bridge (or builds it), then stops so you can scan the QR code. It registers the MCP server, proves it works by listing one chat without sending anything, and stops again so you choose the send mode. The install ends with sending disabled.</desc>
   <style>
     :root{--bg:#F6F8F7;--text:#1B2A33;--dim:#5B6B73;--surf:#FFFFFF;--flow:#2BB673;--comp:#2F6F8F;--guard:#F2A93B;--block:#E5604D;--flowt:#1B7F52;--blockt:#B8402E}
     @media (prefers-color-scheme: dark){:root{--bg:#0F1B22;--text:#E6EEF0;--dim:#9DB0B8;--surf:#16262F;--flow:#3DD68C;--comp:#5FA8C9;--guard:#F2A93B;--block:#F07C6B;--flowt:#3DD68C;--blockt:#F07C6B}}
@@ -36,11 +36,11 @@
   <text x="536.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">3  Diagnostic</text>
   <text x="536.0" y="162" class="t3" text-anchor="middle">read-only, after every step</text>
   <rect x="650" y="100" width="188" height="92" rx="14" class="box"/>
-  <text x="744.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">4  Picks the path</text>
-  <text x="744.0" y="162" class="t3" text-anchor="middle">A, B or C; asks if unsure</text>
+  <text x="744.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">4  Asks every choice at once</text>
+  <text x="744.0" y="162" class="t3" text-anchor="middle">path, audio, skills</text>
   <rect x="858" y="100" width="188" height="92" rx="14" class="box"/>
-  <text x="952.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">5  Installs what is missing</text>
-  <text x="952.0" y="162" class="t3" text-anchor="middle">asks before each program</text>
+  <text x="952.0" y="138" class="t1" text-anchor="middle" style="font-size:13.5px">5  Gets the bridge</text>
+  <text x="952.0" y="162" class="t3" text-anchor="middle">ready-made, SHA-256 checked</text>
   <rect x="26" y="270" width="188" height="92" rx="14" class="boxg"/>
   <text x="120.0" y="308" class="t1" text-anchor="middle" style="font-size:13.5px">6  You scan the QR</text>
   <text x="120.0" y="332" class="t3" text-anchor="middle">WhatsApp, Linked devices</text>

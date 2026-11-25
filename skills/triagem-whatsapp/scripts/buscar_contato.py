@@ -65,7 +65,7 @@ def buscar(consulta: str) -> list:
     for jids in pessoas.values():
         marcas = ",".join("?" * len(jids))
         cur.execute(
-            f"SELECT timestamp, is_from_me, content, media_type FROM messages "
+            f"SELECT timestamp, is_from_me, content, media_type, filename FROM messages "
             f"WHERE chat_jid IN ({marcas}) ORDER BY timestamp DESC LIMIT 1",
             jids,
         )
@@ -90,9 +90,9 @@ if __name__ == "__main__":
         print(f"[{i}] {nome}")
         print(f"    jids: {' | '.join(jids)}")
         if ultima:
-            timestamp, is_from_me, content, media_type = ultima
+            timestamp, is_from_me, content, media_type, filename = ultima
             quem = "EU" if is_from_me else "ELE(A)"
-            texto = f"[{media_type}]" if media_type else (content or "").replace("\n", " ")[:90]
+            texto = comum.rotulo_de_midia(media_type, filename) if media_type else (content or "").replace("\n", " ")[:90]
             print(f"    ultima: {str(timestamp)[:16]} {quem}: {texto}")
         else:
             print("    ultima: sem mensagens no banco (conversa pode estar em outro jid)")

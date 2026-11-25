@@ -7,6 +7,10 @@ Onde ficam os dados (a primeira opcao que existir vence):
 - banco da bridge (data/store): variavel WHATSAPP_STORE_DIR; senao data/store na raiz do plugin
 - notas por contato: variavel WHATSAPP_NOTES_DIR; senao data/notas na raiz do plugin
 - rascunhos do modo loop: variavel WHATSAPP_DRAFTS_DIR; senao data/rascunhos na raiz do plugin
+
+A raiz do plugin e a pasta que tem o `data/store`: primeiro a que contem estes scripts e, se a
+skill foi copiada para outro lugar (por exemplo, a biblioteca de skills de um agente), a pasta
+atual do terminal, as de cima dela e uma pasta `whatsapp-plugin` dentro de cada uma.
 """
 
 import os
@@ -15,7 +19,22 @@ import sqlite3
 import unicodedata
 from pathlib import Path
 
-_RAIZ_DO_PLUGIN = Path(__file__).resolve().parents[3]
+_RAIZ_DO_SCRIPT = Path(__file__).resolve().parents[3]
+
+
+def _achar_raiz_do_plugin() -> Path:
+    """Raiz do plugin: onde existe data/store/messages.db. Sem achar, a raiz relativa ao script."""
+    atual = Path.cwd().resolve()
+    candidatos = [_RAIZ_DO_SCRIPT]
+    for pasta in [atual, *list(atual.parents)[:4]]:
+        candidatos += [pasta, pasta / "whatsapp-plugin"]
+    for pasta in candidatos:
+        if (pasta / "data" / "store" / "messages.db").is_file():
+            return pasta
+    return _RAIZ_DO_SCRIPT
+
+
+_RAIZ_DO_PLUGIN = _achar_raiz_do_plugin()
 
 
 def pasta_store() -> Path:
@@ -46,6 +65,13 @@ def pasta_rascunhos() -> Path:
 STORE_DIR = pasta_store()
 DB_PATH = STORE_DIR / "messages.db"
 CONTACTS_DB_PATH = STORE_DIR / "whatsapp.db"
+
+
+def rotulo_de_midia(media_type, filename=None) -> str:
+    """Texto curto para uma mensagem de midia: [document: contrato.pdf] ou so [image]."""
+    if not media_type:
+        return ""
+    return f"[{media_type}: {filename}]" if filename else f"[{media_type}]"
 
 
 def abrir_ro(caminho: Path) -> sqlite3.Connection:

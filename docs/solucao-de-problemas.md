@@ -82,6 +82,16 @@ Confira se a bridge está rodando. Mídia antiga pode ter expirado, e nesse caso
 
 Instale o extra de áudio (`cd server && uv sync --extra audio`) e o `ffmpeg`, e confirme com `ffmpeg -version`. A primeira transcrição baixa o modelo e pode demorar.
 
+Se funcionava e parou depois de reiniciar o servidor, o comando do servidor está sem `--extra audio`: o `uv run` comum volta o ambiente ao padrão e desinstala o Whisper. Use `uv --directory .../server run --extra audio main.py`.
+
+### O QR expirou antes de eu ler
+
+A bridge renova o QR sozinha. Abra de novo o `data/store/qr.png` (ou o QR do terminal); não precisa reiniciar nada. O arquivo some quando o pareamento termina.
+
+### O download da bridge pronta falha
+
+`baixar_bridge.py` diz o motivo: sem bridge para o seu sistema, sem rede, ou o SHA-256 não confere (nesse caso nada é gravado e o arquivo não deve ser usado). Nos dois primeiros, compile a bridge (guia de uso, passo 3).
+
 ### Mensagens enviadas aparecem como pendentes
 
 Confira se a bridge em uso foi compilada a partir deste plugin e reinicie-a. A versão atual grava no histórico local o que envia.

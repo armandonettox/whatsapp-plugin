@@ -123,6 +123,54 @@ class TesteSkillDeInstalacao(unittest.TestCase):
         self.assertIn("skills/instalar-whatsapp/scripts/verificar_instalacao.py", self.texto)
         self.assertTrue((RAIZ / "skills" / "instalar-whatsapp" / "scripts" / "verificar_instalacao.py").is_file())
 
+    def passo(self, numero, proximo):
+        return self.texto.split(f"## Passo {numero}")[1].split(f"## Passo {proximo}")[0]
+
+    def test_todas_as_escolhas_vao_em_uma_mensagem_so(self):
+        passo1 = self.passo(1, 2)
+        self.assertIn("uma mensagem só", passo1)
+        for escolha in ("**Caminho**", "**Transcrição de áudio**", "**Instalar as skills no agente**"):
+            self.assertIn(escolha, passo1)
+        self.assertIn("com a sua recomendação", passo1)
+
+    def test_agente_dentro_de_container_recebe_um_comando_so_para_a_vps(self):
+        self.assertIn("dentro de um container sem acesso ao servidor", self.passo(1, 2))
+        passo3c = self.passo("3C", 4)
+        self.assertIn("container/instalar-vps.sh", passo3c)
+        self.assertIn("instalar-vps.sh servidor", passo3c)
+        self.assertIn("só depois de perguntar e fazer cópia", passo3c)
+        self.assertTrue((RAIZ / "container" / "instalar-vps.sh").is_file())
+
+    def test_tenta_a_bridge_pronta_antes_de_compilar(self):
+        passo4 = self.passo(4, 5)
+        self.assertIn("baixar_bridge.py", passo4)
+        self.assertLess(passo4.index("baixar_bridge.py"), passo4.index("go build"))
+        self.assertIn("SHA-256", passo4)
+        self.assertIn("**pare**, não use o arquivo", passo4)
+        self.assertTrue((RAIZ / "skills" / "instalar-whatsapp" / "scripts" / "baixar_bridge.py").is_file())
+
+    def test_go_e_compilador_nao_sao_pedidos_antes_de_saber_que_precisa(self):
+        passo2 = self.passo(2, "3A")
+        self.assertIn("Go e compilador C não são necessários", passo2)
+        self.assertNotIn("winget install GoLang.Go", passo2)
+
+    def test_qr_vai_como_imagem_renovada_sozinha(self):
+        passo5 = self.passo(5, 6)
+        self.assertIn("data/store/qr.png", passo5)
+        self.assertIn("renova sozinha", passo5)
+        self.assertIn("anexe a imagem", passo5)
+        self.assertIn("a bridge apaga o arquivo", passo5)
+
+    def test_audio_exige_o_extra_no_comando_do_servidor(self):
+        passo3b = self.passo("3B", "3C")
+        self.assertIn("run --extra audio main.py", passo3b)
+        self.assertIn("desinstala o Whisper", passo3b)
+
+    def test_as_perguntas_novas_tem_motivo_na_secao_por_que(self):
+        porque = self.texto.split("## Por que")[1]
+        for assunto in ("Todas as perguntas de uma vez", "Bridge pronta antes de compilar", "QR como imagem"):
+            self.assertIn(assunto, porque)
+
 
 class TestePromptDoReadme(unittest.TestCase):
     SALVAGUARDAS = {

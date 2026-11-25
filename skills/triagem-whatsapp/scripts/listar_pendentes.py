@@ -73,18 +73,18 @@ def listar_pendentes(limite: int = 20):
         jids = jids_por_pessoa.get(pessoa, [jid])
         marcas = ",".join("?" * len(jids))
         cur.execute(
-            f"SELECT chat_jid, is_from_me, content, media_type, timestamp FROM messages "
+            f"SELECT chat_jid, is_from_me, content, media_type, timestamp, filename FROM messages "
             f"WHERE chat_jid IN ({marcas}) ORDER BY timestamp DESC LIMIT 1",
             jids,
         )
         row = cur.fetchone()
         if not row:
             continue
-        jid_ativo, is_from_me, content, media_type, ultima = row
+        jid_ativo, is_from_me, content, media_type, ultima, filename = row
         if is_from_me:
             continue
 
-        preview = content if content else f"[{media_type}]" if media_type else ""
+        preview = content if content else comum.rotulo_de_midia(media_type, filename)
         pendentes.append((jid_ativo, comum.nome_da_agenda(jids, cur), ultima, preview))
         if len(pendentes) >= limite:
             break

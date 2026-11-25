@@ -4,7 +4,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Container]
-Image=localhost/whatsapp-bridge:0.1.0
+Image=localhost/whatsapp-bridge:0.1.1
 ContainerName=whatsapp-bridge
 # So a rede do servidor MCP. O agente nao participa dela. O nome do container vira o nome na rede.
 Network=whatsapp-back.network

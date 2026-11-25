@@ -12,6 +12,8 @@ Este guia só afirma o que está na documentação oficial de cada agente. O que
 uv --directory /caminho/para/whatsapp-plugin/server run main.py
 ```
 
+**Com transcrição de áudio**, instale uma vez com `uv --directory /caminho/para/whatsapp-plugin/server sync --extra audio` e use `run --extra audio main.py` no comando acima. Sem o `--extra audio` no comando, o `uv run` volta o ambiente ao padrão e desinstala o Whisper na próxima partida.
+
 **Modo de envio.** Sem configurar nada, o servidor fica em `read-only`: lê, busca e transcreve, e as ferramentas de envio nem aparecem. Para enviar com confirmação sua, passe a variável `WHATSAPP_SEND_MODE=two-step` ao servidor. O modo `hook` envia direto e só deve ser usado no Claude Code, que tem o guarda de confirmação. Detalhes no README, seção "Modos de envio".
 
 **A bridge precisa estar rodando** no mesmo computador do servidor. O hook que a liga sozinho é do Claude Code; nos outros agentes, inicie a bridge à mão (README, seção "Instalação").

@@ -33,7 +33,7 @@ O jeito mais curto: cole este texto no seu agente (Claude Code, OpenBot, Codex, 
 Instale o plugin de WhatsApp para mim. Clone https://github.com/armandonettox/whatsapp-plugin, leia o arquivo skills/instalar-whatsapp/SKILL.md e siga-o até o servidor funcionar. Pergunte antes de instalar qualquer programa, pare quando precisar que eu leia o QR no celular, deixe o envio de mensagens desligado e nunca mostre a senha da bridge.
 ```
 
-O agente segue a skill [`instalar-whatsapp`](skills/instalar-whatsapp/SKILL.md): descobre o seu sistema e o agente que está usando, escolhe o caminho certo, instala o que falta (com a sua permissão), compila a bridge, registra o servidor MCP, confere que tudo funciona e entrega um resumo. A cada passo ele roda um diagnóstico (`skills/instalar-whatsapp/scripts/verificar_instalacao.py`) que só lê e mostra o que falta.
+O agente segue a skill [`instalar-whatsapp`](skills/instalar-whatsapp/SKILL.md): descobre o seu sistema e o agente que está usando, faz todas as perguntas em uma mensagem só, instala o que falta (com a sua permissão), baixa a bridge pronta (ou compila), registra o servidor MCP, confere que tudo funciona e entrega um resumo. A cada passo ele roda um diagnóstico (`skills/instalar-whatsapp/scripts/verificar_instalacao.py`) que só lê e mostra o que falta.
 
 **O que continua sendo seu:**
 
@@ -122,8 +122,7 @@ Um agente que tem terminal e roda sem confirmação poderia chamar a API da brid
 |---|---|
 | Um agente com suporte a MCP | Claude Code, OpenBot, Codex, OpenCode, OpenClaw ou outro |
 | [`uv`](https://docs.astral.sh/uv/) | rodar o servidor MCP |
-| [Go](https://go.dev/dl/) 1.25 ou superior | compilar a bridge |
-| Compilador C (`gcc`) | a bridge usa SQLite via CGO (no Windows, MSYS2/MinGW) |
+| [Go](https://go.dev/dl/) 1.25 ou superior e compilador C (`gcc`) | só se for compilar a bridge (usa SQLite via CGO; no Windows, MSYS2/MinGW). A release traz a bridge pronta, então a maioria das pessoas dispensa os dois |
 | `ffmpeg` e extra `audio` | só se for transcrever áudios (opcional) |
 | Um celular com WhatsApp | para ler o QR de conexão |
 
@@ -137,7 +136,14 @@ Testado no Windows 11. Em Linux e macOS o código é o mesmo (a integração con
 git clone https://github.com/armandonettox/whatsapp-plugin.git
 ```
 
-**2. Compile a bridge**
+**2. Obtenha a bridge.** Baixe a pronta para o seu sistema (Windows, Linux ou macOS, amd64 ou arm64). O script confere o SHA-256 publicado antes de gravar o arquivo:
+
+```
+cd whatsapp-plugin
+python skills/instalar-whatsapp/scripts/baixar_bridge.py
+```
+
+Sem bridge pronta para o seu sistema, ou sem rede? Compile (precisa de Go e compilador C):
 
 ```
 cd whatsapp-plugin/bridge
@@ -236,11 +242,11 @@ O guia [docs/agentes.md](docs/agentes.md) traz o cadastro do servidor e a limita
 
 ## Estado do projeto
 
-Versão `0.1.0`.
+Versão `0.1.1`.
 
 **Testado:** os testes automáticos rodam em Linux e Windows a cada envio (guarda de envio, modos de envio, servidor HTTP, senha da bridge, arquivos de container, skills e verificador de privacidade); o `docker compose config` aceita o arquivo Compose; os Quadlets passaram na simulação do gerador do Podman 4.9; e um agente seguiu o prompt de instalação, em modo ensaio, até o passo do QR.
 
-**Ainda não testado:** a construção das imagens de container e o uso do OpenBot com elas; o cadastro do servidor por URL no OpenBot (a tela de cadastro não está documentada); o fluxo completo depois da leitura do QR com esta versão; os comandos de instalação de `winget` e `brew` da skill.
+**Ainda não testado:** o download da bridge pronta (funciona assim que uma release trouxer os binários gerados pelo fluxo de release); a construção das imagens de container e o uso do OpenBot com elas (o script da VPS foi testado com substitutos de `podman` e `systemctl`); o cadastro do servidor por URL no OpenBot (a tela de cadastro não está documentada); o fluxo completo depois da leitura do QR com esta versão; os comandos de instalação de `winget` e `brew` da skill.
 
 ## Créditos e licença
 
