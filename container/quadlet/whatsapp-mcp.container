@@ -4,7 +4,7 @@ After=whatsapp-bridge.service
 Requires=whatsapp-bridge.service
 
 [Container]
-Image=localhost/whatsapp-mcp:0.1.1
+Image=localhost/whatsapp-mcp:0.1.2
 ContainerName=whatsapp-mcp
 # Fala com a bridge pela rede back e com o agente pela rede agente. Nenhuma porta e publicada.
 Network=whatsapp-back.network

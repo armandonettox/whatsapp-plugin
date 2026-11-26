@@ -12,7 +12,7 @@ Plugin do Claude Code que conecta o WhatsApp ao agente: servidor MCP em Python (
 - `bridge/`: `main.go` conecta ao WhatsApp, grava `data/store/*.db` e expõe a API em `127.0.0.1:8081` por padrão; `auth.go` guarda a senha da API e decide o endereço de escuta (com testes em `auth_test.go`).
 - `container/`: Containerfiles da bridge e do servidor, `compose.yaml` para o computador e `quadlet/` para o Podman da VPS.
 - `skills/`: seis skills (`instalar-whatsapp`, `usar-whatsapp-mcp`, `triagem-whatsapp`, `notas-por-contato`, `escrever-como-humano`, `mensagens-em-partes`), cada uma com `SKILL.md`, `references/` e, quando precisa, `scripts/`. O `_comum.py` existe nas skills `triagem-whatsapp` e `notas-por-contato` com o mesmo conteúdo (um teste confere), para cada skill funcionar sozinha.
-- `commands/`: comandos do plugin (`status`, `pendentes`, `responder`, `resumo`, `loop`, `modo`).
+- `commands/`: comandos do plugin (`status`, `pendentes`, `responder`, `resumo`, `loop`, `modo`, `atualizar`).
 - `hooks/`: `hooks.json`, `whatsapp-bridge-ensure.sh` (liga a bridge) e `guard.sh` + `whatsapp-send-guard.py` (guarda de envio do Claude Code).
 - `.claude-plugin/`: `plugin.json` e `marketplace.json`. `scripts/check-privacy.py`: verificador de privacidade. `tests/`: testes.
 

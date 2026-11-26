@@ -1,7 +1,7 @@
 # Bridge do WhatsApp em container.
 # Construir a partir da raiz do plugin:
-#   podman build -f container/bridge.Containerfile -t localhost/whatsapp-bridge:0.1.1 .
-#   (com Docker: docker build -f container/bridge.Containerfile -t whatsapp-bridge:0.1.1 .)
+#   podman build -f container/bridge.Containerfile -t localhost/whatsapp-bridge:0.1.2 .
+#   (com Docker: docker build -f container/bridge.Containerfile -t whatsapp-bridge:0.1.2 .)
 
 FROM docker.io/library/golang:1.25-bookworm AS build
 WORKDIR /src

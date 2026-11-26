@@ -18,7 +18,7 @@ O projeto reúne tudo o que é preciso:
 - **Servidor MCP** em Python, com 13 ferramentas (buscar contatos, ler mensagens, enviar, baixar mídia, transcrever áudio).
 - **Bridge** em Go que conecta ao WhatsApp como um aparelho a mais (multidispositivo).
 - **Seis skills**, no formato padrão de skill, para qualquer agente que as aceite: uma que **instala e configura tudo por você** (veja a seção abaixo) e cinco que ensinam o agente a usar o MCP, fazer a triagem das conversas, lembrar o jeito de falar de cada contato, escrever com linguagem humana e dividir respostas em várias mensagens.
-- **Comandos** para o Claude Code (`/whatsapp:status`, `/whatsapp:pendentes`, `/whatsapp:responder`, `/whatsapp:resumo`, `/whatsapp:loop`, `/whatsapp:modo`). Nos outros agentes, peça em linguagem natural.
+- **Comandos** para o Claude Code (`/whatsapp:status`, `/whatsapp:pendentes`, `/whatsapp:responder`, `/whatsapp:resumo`, `/whatsapp:loop`, `/whatsapp:modo`, `/whatsapp:atualizar`). Nos outros agentes, peça em linguagem natural.
 - **Hooks do Claude Code**: um liga a bridge no início da sessão, outro é o guarda de envio. Nos outros agentes, o servidor MCP faz essa proteção sozinho (veja "Modos de envio").
 
 > **Leia antes de usar.** A bridge usa a biblioteca `whatsmeow`, um cliente **não oficial** do WhatsApp. O uso pode ir contra os termos do WhatsApp e o seu número pode ser bloqueado. Use por sua conta e risco, com o seu próprio número, e respeite a privacidade de quem conversa com você. Este projeto não tem ligação com o WhatsApp nem com a Meta.
@@ -242,7 +242,7 @@ O guia [docs/agentes.md](docs/agentes.md) traz o cadastro do servidor e a limita
 
 ## Estado do projeto
 
-Versão `0.1.1`.
+Versão `0.1.2`.
 
 **Testado:** os testes automáticos rodam em Linux e Windows a cada envio (guarda de envio, modos de envio, servidor HTTP, senha da bridge, arquivos de container, skills e verificador de privacidade); o `docker compose config` aceita o arquivo Compose; os Quadlets passaram na simulação do gerador do Podman 4.9; e um agente seguiu o prompt de instalação, em modo ensaio, até o passo do QR.
 

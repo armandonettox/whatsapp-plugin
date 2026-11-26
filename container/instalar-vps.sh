@@ -5,10 +5,11 @@
 #   bash container/instalar-vps.sh                  prepara tudo e mostra o QR (rode primeiro)
 #   bash container/instalar-vps.sh servidor         sobe o servidor MCP e liga o OpenBot a rede dele
 #   bash container/instalar-vps.sh status           mostra o que esta rodando
+#   bash container/instalar-vps.sh atualizar        vai para a ultima release e refaz as imagens
 #
 # Opcoes: --audio (imagem com transcricao de audio, bem maior), --sem-openbot (nao mexe no
 # OpenBot), --openbot-arquivo <caminho> (padrao: openbot.container na pasta do Quadlet) e
-# --sim (nao pergunta antes de editar o arquivo do OpenBot).
+# --sim (nao pergunta antes de editar o arquivo do OpenBot ou de atualizar).
 #
 # O que ele nunca faz: mostrar a senha da bridge, publicar porta, rodar como root, apagar nada.
 set -euo pipefail
@@ -24,12 +25,12 @@ sim=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    preparar|servidor|status) acao="$1" ;;
+    preparar|servidor|status|atualizar) acao="$1" ;;
     --audio) audio=1 ;;
     --sem-openbot) mexe_no_openbot=0 ;;
     --openbot-arquivo) shift; arquivo_openbot="${1:-}" ;;
     --sim) sim=1 ;;
-    -h|--help) sed -n '2,13p' "${BASH_SOURCE[0]}"; exit 0 ;;
+    -h|--help) sed -n '2,14p' "${BASH_SOURCE[0]}"; exit 0 ;;
     *) echo "Opcao desconhecida: $1 (use --help)" >&2; exit 2 ;;
   esac
   shift
@@ -70,29 +71,33 @@ gera_segredo() {
   avisa "Senha da bridge: criada como segredo do Podman (o valor nao e mostrado)."
 }
 
-preparar() {
-  confere_ambiente
-  [ -f "${raiz}/container/bridge.Containerfile" ] || falha "rode de dentro do plugin clonado (nao achei container/bridge.Containerfile)."
-
-  avisa "1/5 Construindo a imagem da bridge (pode levar alguns minutos na primeira vez)..."
+construir_imagens() {
+  avisa "Construindo a imagem da bridge (pode levar alguns minutos)..."
   podman build -f "${raiz}/container/bridge.Containerfile" -t "$(imagem_de whatsapp-bridge.container)" "$raiz"
 
-  avisa "2/5 Construindo a imagem do servidor MCP..."
+  avisa "Construindo a imagem do servidor MCP..."
   if [ "$audio" -eq 1 ]; then
     podman build --build-arg INSTALL_AUDIO=1 -f "${raiz}/container/mcp.Containerfile" -t "$(imagem_de whatsapp-mcp.container)" "$raiz"
   else
     podman build -f "${raiz}/container/mcp.Containerfile" -t "$(imagem_de whatsapp-mcp.container)" "$raiz"
   fi
+}
 
-  avisa "3/5 Senha da bridge..."
+preparar() {
+  confere_ambiente
+  [ -f "${raiz}/container/bridge.Containerfile" ] || falha "rode de dentro do plugin clonado (nao achei container/bridge.Containerfile)."
+
+  construir_imagens
+
+  avisa "Senha da bridge..."
   gera_segredo
 
-  avisa "4/5 Instalando os arquivos do Quadlet em ${pasta_quadlet}..."
+  avisa "Instalando os arquivos do Quadlet em ${pasta_quadlet}..."
   mkdir -p "$pasta_quadlet"
   cp "${raiz}"/container/quadlet/whatsapp-* "$pasta_quadlet"/
   systemctl --user daemon-reload
 
-  avisa "5/5 Iniciando a bridge. O QR aparece abaixo."
+  avisa "Iniciando a bridge. O QR aparece abaixo."
   systemctl --user start whatsapp-bridge.service
   avisa ""
   avisa "No celular: WhatsApp > Aparelhos conectados > Conectar um aparelho, e leia o QR."
@@ -155,7 +160,36 @@ status() {
   podman ps --format '{{.Names}}  {{.Status}}' 2>/dev/null | grep -E '^whatsapp-' || true
 }
 
+# Vai para a ultima release (tag vX.Y.Z), refaz as imagens e reinicia os servicos. Nao toca no
+# volume com a sessao do WhatsApp, na senha (segredo do Podman) nem no arquivo do OpenBot.
+atualizar() {
+  confere_ambiente
+  [ -d "${raiz}/.git" ] || falha "esta pasta nao e um clone do git. Clone o plugin de novo e rode 'preparar' nele."
+  precisa git "Instale o git."
+  [ -z "$(git -C "$raiz" status --porcelain)" ] || falha "ha alteracoes locais no plugin; guarde-as (git stash) e rode de novo. Nada foi mudado."
+  git -C "$raiz" fetch --tags origin
+  ultima="$(git -C "$raiz" tag --list 'v*' --sort=-v:refname | head -n 1)"
+  [ -n "$ultima" ] || falha "nao achei nenhuma release (tag vX.Y.Z) no repositorio."
+  if git -C "$raiz" merge-base --is-ancestor "$ultima" HEAD; then
+    avisa "Ja esta na ultima release (${ultima})."
+    return
+  fi
+  avisa "Vou atualizar para ${ultima}, refazer as imagens e reiniciar a bridge e o servidor MCP."
+  avisa "A sessao do WhatsApp e a senha continuam como estao. A bridge fica fora por alguns segundos."
+  confirma "Posso continuar?" || falha "cancelado. Nada foi alterado."
+  git -C "$raiz" merge --ff-only "$ultima" || falha "nao consegui avancar sem misturar historicos. Nada foi mudado."
+  construir_imagens
+  mkdir -p "$pasta_quadlet"
+  cp "${raiz}"/container/quadlet/whatsapp-* "$pasta_quadlet"/
+  systemctl --user daemon-reload
+  systemctl --user restart whatsapp-bridge.service
+  systemctl --user restart whatsapp-mcp.service
+  avisa "Atualizado para ${ultima}. O endereco do servidor MCP nao mudou: nao precisa recadastrar no agente."
+  avisa "Reinicie o agente se ele nao reconectar sozinho. Confira com: bash container/instalar-vps.sh status"
+}
+
 case "$acao" in
+  atualizar) atualizar ;;
   preparar) preparar ;;
   servidor) servidor ;;
   status) status ;;

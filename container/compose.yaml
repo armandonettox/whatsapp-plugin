@@ -17,7 +17,7 @@ services:
     build:
       context: ..
       dockerfile: container/bridge.Containerfile
-    image: whatsapp-bridge:0.1.1
+    image: whatsapp-bridge:0.1.2
     container_name: whatsapp-bridge
     restart: unless-stopped
     environment:
@@ -35,7 +35,7 @@ services:
     build:
       context: ..
       dockerfile: container/mcp.Containerfile
-    image: whatsapp-mcp:0.1.1
+    image: whatsapp-mcp:0.1.2
     container_name: whatsapp-mcp
     restart: unless-stopped
     depends_on:

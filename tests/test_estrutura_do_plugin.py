@@ -19,7 +19,7 @@ SKILLS_ESPERADAS = {
     "instalar-whatsapp", "usar-whatsapp-mcp", "triagem-whatsapp", "notas-por-contato", "escrever-como-humano",
     "mensagens-em-partes",
 }
-COMANDOS_ESPERADOS = {"status", "pendentes", "responder", "resumo", "loop", "modo"}
+COMANDOS_ESPERADOS = {"status", "pendentes", "responder", "resumo", "loop", "modo", "atualizar"}
 
 PASTAS_IGNORADAS = {".git", "data", ".venv", "__pycache__", "node_modules"}
 ARQUIVOS_IGNORADOS = {"uv.lock", "go.sum"}
@@ -101,7 +101,7 @@ class TesteSkills(unittest.TestCase):
                                  "aguardar_backlog.py", "resumo_sessao.py", "caminhos.py", "_comum.py"},
             "notas-por-contato": {"criar_nota.py", "compromissos.py", "_comum.py"},
             "mensagens-em-partes": {"dividir_mensagem.py"},
-            "instalar-whatsapp": {"verificar_instalacao.py", "baixar_bridge.py"},
+            "instalar-whatsapp": {"verificar_instalacao.py", "baixar_bridge.py", "atualizar_plugin.py"},
         }
         for skill, nomes in esperados.items():
             with self.subTest(skill=skill):
@@ -110,7 +110,7 @@ class TesteSkills(unittest.TestCase):
 
 
 class TesteComandos(unittest.TestCase):
-    def test_existem_os_seis_comandos(self):
+    def test_existem_os_comandos_esperados(self):
         self.assertEqual({c.stem for c in COMANDOS}, COMANDOS_ESPERADOS)
 
     def test_cada_comando_tem_descricao(self):
@@ -125,6 +125,14 @@ class TesteComandos(unittest.TestCase):
             if "argument-hint" in texto:
                 with self.subTest(comando=comando.stem):
                     self.assertIn("$ARGUMENTS", texto)
+
+    def test_o_comando_de_atualizar_verifica_primeiro_pergunta_e_nao_forca(self):
+        texto = (RAIZ / "commands" / "atualizar.md").read_text(encoding="utf-8")
+        for trecho in ("scripts/atualizar_plugin.py", "--aplicar", "Verifique primeiro, sem alterar nada",
+                       "pergunte se pode atualizar", "nao force nada", "pasta `data/`",
+                       "/plugin update whatsapp@whatsapp-plugin", "instalar-vps.sh atualizar"):
+            self.assertIn(trecho, texto)
+        self.assertLess(texto.index("Verifique primeiro"), texto.index("--aplicar"))
 
     def test_o_loop_nunca_manda_enviar(self):
         texto = (RAIZ / "commands" / "loop.md").read_text(encoding="utf-8")

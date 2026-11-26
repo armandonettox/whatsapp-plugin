@@ -18,7 +18,7 @@ The project includes everything you need:
 - **MCP server** in Python with 13 tools (search contacts, read messages, send, download media, transcribe audio).
 - **Bridge** in Go that connects to WhatsApp as one more linked device (multi-device).
 - **Six skills**, in the standard skill format, for any agent that accepts them: one that **installs and configures everything for you** (see the section below) and five that teach the agent to use the MCP, triage conversations, remember how you talk to each contact, write like a human and split replies into several messages.
-- **Commands** for Claude Code (`/whatsapp:status`, `/whatsapp:pendentes`, `/whatsapp:responder`, `/whatsapp:resumo`, `/whatsapp:loop`, `/whatsapp:modo`). In other agents, ask in plain language.
+- **Commands** for Claude Code (`/whatsapp:status`, `/whatsapp:pendentes`, `/whatsapp:responder`, `/whatsapp:resumo`, `/whatsapp:loop`, `/whatsapp:modo`, `/whatsapp:atualizar`). In other agents, ask in plain language.
 - **Claude Code hooks**: one starts the bridge when the session begins, the other is the send guard. In other agents, the MCP server provides this protection by itself (see "Send modes").
 
 > **Read before using.** The bridge uses the `whatsmeow` library, an **unofficial** WhatsApp client. Using it may go against WhatsApp's terms and your number may be banned. Use it at your own risk, with your own number, and respect the privacy of the people you talk to. This project is not affiliated with WhatsApp or Meta.
@@ -244,7 +244,7 @@ The detailed guides are currently written in Portuguese.
 
 ## Project status
 
-Version `0.1.1`.
+Version `0.1.2`.
 
 **Tested:** automated tests run on Linux and Windows on every push (send guard, send modes, HTTP server, bridge password, container files, skills and the privacy checker); `docker compose config` accepts the Compose file; the Quadlets passed the Podman 4.9 generator dry run; and an agent followed the install prompt, in rehearsal mode, up to the QR step.
 

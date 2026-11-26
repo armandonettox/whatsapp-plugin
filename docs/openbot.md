@@ -56,8 +56,8 @@ O primeiro comando constrói as imagens, cria a senha como segredo do Podman (se
 **1. Construa as imagens**, a partir da pasta do plugin:
 
 ```
-podman build -f container/bridge.Containerfile -t localhost/whatsapp-bridge:0.1.1 .
-podman build -f container/mcp.Containerfile    -t localhost/whatsapp-mcp:0.1.1 .
+podman build -f container/bridge.Containerfile -t localhost/whatsapp-bridge:0.1.2 .
+podman build -f container/mcp.Containerfile    -t localhost/whatsapp-mcp:0.1.2 .
 ```
 
 Para transcrever áudios, acrescente `--build-arg INSTALL_AUDIO=1` na segunda (a imagem fica bem maior).
@@ -157,6 +157,6 @@ Se algum desses passos falhar, abra uma issue com o passo, a mensagem de erro e 
 
 ## Atualizar, copiar e remover
 
-- **Atualizar:** reconstrua as imagens com a nova versão e reinicie as unidades (`systemctl --user restart whatsapp-bridge.service whatsapp-mcp.service`).
+- **Atualizar:** `bash container/instalar-vps.sh atualizar`. Ele avança o plugin para a última release, refaz as imagens, reinstala os Quadlets e reinicia a bridge e o servidor, perguntando antes. A sessão do WhatsApp, a senha e o arquivo do OpenBot não são tocados, e o endereço do servidor MCP não muda. (A bridge fica fora por alguns segundos.)
 - **Cópia de segurança:** o volume tem a sessão do WhatsApp. Guarde-o como guardaria uma senha, e não o envie para nuvem nem para o git.
 - **Remover:** `systemctl --user stop whatsapp-mcp.service whatsapp-bridge.service`, apague os arquivos Quadlet, desconecte o aparelho no celular (**Aparelhos conectados**) e só então remova o volume (`podman volume rm whatsapp-data`) e o segredo (`podman secret rm whatsapp-bridge-token`). Desfaça também a linha `Network=` do OpenBot.

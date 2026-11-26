@@ -166,6 +166,22 @@ class TesteSkillDeInstalacao(unittest.TestCase):
         self.assertIn("run --extra audio main.py", passo3b)
         self.assertIn("desinstala o Whisper", passo3b)
 
+    def test_secao_de_atualizar_verifica_pergunta_e_nunca_forca(self):
+        secao = self.texto.split("## Atualizar (sem reinstalar)")[1].split("## Se algo der errado")[0]
+        self.assertIn("atualizar_plugin.py", secao)
+        self.assertIn("Verifique, sem alterar nada", secao)
+        self.assertIn("pergunte se pode atualizar", secao)
+        self.assertIn("--aplicar", secao)
+        self.assertIn("não force", secao)
+        self.assertIn("nunca** toca em `data/`", secao)
+        self.assertIn("instalar-vps.sh atualizar", secao)
+        self.assertIn("/plugin update whatsapp@whatsapp-plugin", secao)
+        self.assertTrue((RAIZ / "skills" / "instalar-whatsapp" / "scripts" / "atualizar_plugin.py").is_file())
+
+    def test_a_descricao_da_skill_cobre_atualizar(self):
+        cabecalho = self.texto.split("---")[1]
+        self.assertIn("atualiza o plugin", cabecalho)
+
     def test_as_perguntas_novas_tem_motivo_na_secao_por_que(self):
         porque = self.texto.split("## Por que")[1]
         for assunto in ("Todas as perguntas de uma vez", "Bridge pronta antes de compilar", "QR como imagem"):

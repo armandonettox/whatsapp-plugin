@@ -1,7 +1,7 @@
 {
   "name": "whatsapp",
   "description": "WhatsApp para agentes de IA: servidor MCP (ler conversas, buscar contatos, transcrever audios, enviar), bridge local, skills e comandos para responder mensagens no seu tom e um guarda que bloqueia qualquer envio sem confirmacao explicita. Funciona com qualquer agente que fale MCP.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "armandonettox"
   },

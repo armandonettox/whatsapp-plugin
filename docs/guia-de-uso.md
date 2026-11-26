@@ -131,6 +131,7 @@ Nos outros agentes, os comandos não existem: peça a mesma coisa em linguagem n
 | `/whatsapp:resumo [contato]` | resume as mensagens novas, ou o histórico de um contato |
 | `/whatsapp:loop [intervalo]` | liga a triagem periódica, que só prepara rascunhos |
 | `/whatsapp:modo` | mostra o modo de envio e como mudar |
+| `/whatsapp:atualizar` | atualiza o plugin para a última release, sem reinstalar |
 
 ### Pedidos em linguagem natural
 
@@ -184,13 +185,18 @@ Toda a pasta `data/` fica fora do git. **Quem lê `data/store` controla a sua co
 
 ## 10. Atualizar
 
+Pelo agente: `/whatsapp:atualizar` no Claude Code, ou peça "atualize o plugin de WhatsApp" a qualquer agente (ele segue a skill `instalar-whatsapp`). Ou direto no terminal, a partir da pasta do plugin:
+
 ```
-git pull
-cd bridge
-go build -o main.exe .            # recompile a bridge
+python skills/instalar-whatsapp/scripts/atualizar_plugin.py            # só verifica
+python skills/instalar-whatsapp/scripts/atualizar_plugin.py --aplicar  # atualiza
 ```
 
-Feche a bridge antes de recompilar. Reinicie o agente para ele carregar o servidor e as skills novos.
+O script avança o código para a última release sem misturar históricos, atualiza as dependências do servidor e mostra o que mudou. **Não toca** em `data/` (sessão, mensagens, notas), no `.env`, na senha nem no modo de envio. Se você alterou arquivos do plugin, ele recusa e diz quais (guarde-os com `git stash`). Se o código da bridge mudou, ele avisa: feche a bridge e rode de novo com `--bridge` para baixar a nova (ou compile). Em containers, no servidor: `bash container/instalar-vps.sh atualizar`.
+
+Depois, reinicie o agente para ele carregar o servidor e as skills novos. No Claude Code instalado pelo catálogo (sem pasta git), use `/plugin marketplace update whatsapp-plugin` e `/plugin update whatsapp@whatsapp-plugin`; catálogo de terceiros não atualiza sozinho.
+
+> A primeira atualização a partir da versão 0.1.1 ou anterior é manual, porque essas versões ainda não têm o script: `git pull` na pasta do plugin (ou `git fetch --tags && git merge --ff-only v0.1.2`), e daí em diante o comando de atualização funciona.
 
 ## 11. Remover
 

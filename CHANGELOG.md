@@ -2,6 +2,15 @@
 
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
+## [0.1.2]
+
+### Novo
+- **Atualização sem reinstalar.** O comando `/whatsapp:atualizar` (Claude Code) e o script `atualizar_plugin.py` (qualquer agente, pela skill `instalar-whatsapp`) verificam a última release, mostram as notas e, depois do "sim", avançam o código sem misturar históricos, atualizam as dependências do servidor e avisam se a bridge ou os containers mudaram. Recusam quando há alterações locais e nunca tocam em `data/`, `.env`, senha nem modo de envio.
+- `container/instalar-vps.sh atualizar`: vai para a última release, refaz as imagens, reinstala os Quadlets e reinicia a bridge e o servidor, sem mexer na sessão, na senha nem no OpenBot.
+
+### Observação
+- A primeira atualização a partir da 0.1.1 ou anterior é manual (`git pull`), porque essas versões não têm o script.
+
 ## [0.1.1]
 
 ### Corrigido

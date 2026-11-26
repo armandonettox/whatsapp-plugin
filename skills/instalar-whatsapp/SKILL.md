@@ -1,6 +1,6 @@
 ---
 name: instalar-whatsapp
-description: Instala e configura o plugin de WhatsApp do começo ao fim até funcionar - detecta o sistema e o agente, escolhe o caminho certo (Claude Code, outro agente por stdio, ou containers para OpenBot e agentes com terminal), instala o que falta com permissão, baixa a bridge pronta (ou compila), guia o pareamento por QR, registra o servidor MCP no agente, deixa o envio desligado por padrão e prova que funciona. Use quando pedirem para instalar, configurar, consertar a instalação ou conectar o WhatsApp a um agente.
+description: Instala e configura o plugin de WhatsApp do começo ao fim até funcionar - detecta o sistema e o agente, escolhe o caminho certo (Claude Code, outro agente por stdio, ou containers para OpenBot e agentes com terminal), instala o que falta com permissão, baixa a bridge pronta (ou compila), guia o pareamento por QR, registra o servidor MCP no agente, deixa o envio desligado por padrão e prova que funciona. Também atualiza o plugin para a última versão sem reinstalar. Use quando pedirem para instalar, configurar, consertar a instalação, atualizar ou conectar o WhatsApp a um agente.
 ---
 
 # Instalar o plugin de WhatsApp
@@ -213,6 +213,18 @@ Termine com um resumo curto, sem dados pessoais:
 - como desinstalar (`docs/guia-de-uso.md`, seção "Remover");
 - o que ficou pendente ou não confirmado.
 
+## Atualizar (sem reinstalar)
+
+Quando a pessoa pedir para **atualizar** o plugin, não refaça a instalação. A partir da pasta do plugin:
+
+1. **Verifique, sem alterar nada:** `python skills/instalar-whatsapp/scripts/atualizar_plugin.py`. Ele mostra a versão instalada, a última release e as notas. Se já está na última, diga isso e termine.
+2. **Se há versão nova**, mostre em poucas linhas o que muda e **pergunte se pode atualizar**. Só então: `python skills/instalar-whatsapp/scripts/atualizar_plugin.py --aplicar`. O script avança o código para a release (`merge --ff-only`), atualiza as dependências do servidor pelo arquivo de travas e mostra o que mudou. Ele **nunca** toca em `data/`, em `.env`, na senha nem no modo de envio.
+3. **Se ele recusar** (alterações locais, código 3; histórico divergente, código 4), mostre o motivo e **não force**. A pessoa decide: guardar as alterações (`git stash`), ou clonar de novo e copiar a pasta `data/`.
+4. **Bridge:** só é trocada se o código dela mudou. Se o script avisar, peça para a pessoa fechar a bridge (pergunte de quem é o processo se não for deste plugin) e rode de novo com `--bridge`, ou compile (passo 4).
+5. **Containers:** se os arquivos de `container/` mudaram, no servidor rode `bash container/instalar-vps.sh atualizar` (ele pergunta antes, refaz as imagens e reinicia, sem mexer na sessão nem na senha). O endereço do servidor MCP não muda.
+6. **Se a pasta não é um clone do git** (código 2): no Claude Code instalado pelo catálogo, `/plugin marketplace update whatsapp-plugin` e `/plugin update whatsapp@whatsapp-plugin`; em outros casos, baixar a release e trocar a pasta, mantendo `data/`.
+7. **Depois:** reiniciar o agente (ele só lê o servidor MCP e as skills ao iniciar), iniciar a bridge se foi fechada e rodar o diagnóstico (passo 0).
+
 ## Se algo der errado
 
 | Sintoma | O que fazer |
@@ -236,6 +248,7 @@ Mais casos em `docs/solucao-de-problemas.md`.
 - **Envio desligado até a pessoa decidir:** uma mensagem enviada não se desfaz e chega a terceiros. O padrão seguro custa um passo a mais para quem quer enviar, e evita o pior caso para quem não leu nada.
 - **Senha só no ambiente, nunca no chat:** o que aparece na conversa fica no histórico do agente e pode ser enviado ao modelo.
 - **Não inventar configuração de agente:** cada agente guarda o servidor MCP e as skills de um jeito. Um caminho inventado parece funcionar e deixa a instalação quebrada sem aviso.
+- **Atualizar sem reinstalar, com recusa em vez de força:** a pessoa já tem sessão, notas e configuração que valem mais que a versão nova. O script só avança por `--ff-only`, recusa quando há alteração local e nunca toca em `data/`; assim uma atualização não vira perda de dados.
 - **Todas as perguntas de uma vez:** cada pergunta separada é uma volta de espera para a pessoa. Com a recomendação ao lado, ela responde em uma linha e a instalação segue sem parar.
 - **Bridge pronta antes de compilar:** compilar exige Go e um compilador C, que é a parte mais lenta e a que mais falha. O binário publicado com SHA-256 troca isso por um download conferido, e a compilação fica como plano B.
 - **QR como imagem:** em um chat, o desenho de caracteres do terminal sai distorcido e o código vence em segundos. A imagem renovada sozinha elimina o refazer.
